@@ -2,17 +2,17 @@
 
 $Id"""
 
-import time
-import socket
 import logging
+import socket
+import time
 import xmlrpclib
 from cStringIO import StringIO
 
 import Image
 import cjson
 from autoconnect import UdpReceiver
-from imagescanner import settings
-from imagescanner.backends import base
+
+from daak.backend.imagescanner.backends import base
 
 SEARCH_PORT = 3244
 SEARCH_TIMEOUT = 3

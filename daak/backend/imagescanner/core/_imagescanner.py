@@ -1,14 +1,13 @@
 """Imagescanner main class. All embeded backends are loaded here.
 
-$Id: _imagescanner.py,v b51df4bf61b9 2011/05/14 17:23:48 seocam $""" 
+$Id: _imagescanner.py,v b51df4bf61b9 2011/05/14 17:23:48 seocam $"""
 
-import os
 import logging
+
 # from importlib import import_module
-from imagescanner.backends.twain import ScannerManager
+from daak.backend.imagescanner.backends.twain import ScannerManager
 
-from imagescanner import settings
-
+from daak.backend.imagescanner import settings
 
 # POSIX_BACKEND = 'imagescanner.backends.sane'
 # NT_BACKEND = 'imagescanner.backends.twain'

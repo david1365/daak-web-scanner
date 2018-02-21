@@ -3,13 +3,13 @@
 $Id: __init__.py,v b0e8e4bd3d27 2011/05/14 17:42:19 seocam $"""
 
 import logging
+import time
 from StringIO import StringIO
 
 import Image
 import twain
-import time
 
-from imagescanner.backends import base
+from daak.backend.imagescanner.backends import base
 
 
 class ScannerManager(base.ScannerManager):

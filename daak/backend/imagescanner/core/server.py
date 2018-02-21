@@ -7,12 +7,13 @@ $id$
 """
 
 import xmlrpclib
-from cStringIO import StringIO
 from SimpleXMLRPCServer import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
+from cStringIO import StringIO
 
 import cjson
 from imagescanner import ImageScanner
-from imagescanner.utils import scanner_serializer
+
+from daak.backend.imagescanner.utils import scanner_serializer
 
 
 def list_scanners():
