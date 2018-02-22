@@ -46,6 +46,6 @@ def crossdomain(origin=None, methods=None, headers=None,
 
 
 def to_json(func):
-    def wrapper():
-       return jsonify(func().json_serialize())
+    def wrapper(*args, **kwargs):
+       return jsonify(func(*args, **kwargs).json_serialize())
     return wrapper

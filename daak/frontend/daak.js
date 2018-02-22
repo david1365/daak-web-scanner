@@ -10,7 +10,10 @@ var daak = (function ()
     const REAL ='real-';
     daak.oa = {};
 
-
+    const Status = {
+        OK: 0,
+        EROOR: 1
+    }
 
     var prefixUrl = 'http://127.0.0.1:2020';
     var scannerUrl = prefixUrl + '/scanner';
@@ -120,25 +123,41 @@ var daak = (function ()
 
         ajax({
             url: validUrl(cmd),
-            // dataType: 'json',
+            dataType: 'json',
             async: false,
             success: function (data) {
                 result = data;
             }
         })
 
+        if (result._status === Status.EROOR) {
+            throw new Error(result._message);
+        }
+
         return result;
     }
 
     var scanners = function () {
-        var result = runCommand('list');
+        return runCommand('list');
+    }
 
-        // if (result.s)
-        return result
+    var _scan = function (id) {
+        return runCommand(id);
     }
 
     var scan = function (id) {
-        return runCommand(id);
+        var result = _scan(id);
+
+        var image = new Image();
+        image.src = 'data:image/png;base64,' + result._data;
+
+        return image;
+
+        //TODO: select one of them
+        // var image = new Image();
+        // image.src = validUrl(id) +'?daak=' + Math.random() * .23;
+        //
+        // return image;
     }
 
     daak.scanners = scanners;
@@ -199,6 +218,13 @@ var daak = (function ()
             else{
                 this.setAttribute("daak-" + name, value);
             }
+        },
+        scan: function (id) {
+            // var result = _scan(id);
+            //
+            // var image = new Image();
+            // image.src = 'data:image/png;base64,' + result._data;
+            alert(this.tagName)
         }
     }
 

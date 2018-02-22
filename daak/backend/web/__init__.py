@@ -2,6 +2,8 @@ import logging
 import base64
 import cStringIO
 
+# from flask import send_file
+
 from daak.backend.facade.scanner import Scanner
 from daak.backend.helper.decorator import to_json
 from enum import Enum
@@ -57,8 +59,12 @@ def scan(scanner_id):
     try:
         image = scanner.scan(scanner_id)
         buffer = cStringIO.StringIO()
-        image.save(buffer, format="JPEG")
+        image.save(buffer, format="PNG")
         data = base64.b64encode(buffer.getvalue())
+
+    #TODO: select one of them
+    # buffer.seek(0)
+    # return send_file(buffer, mimetype='image/png')
     except Exception, exc:
         status = Status.EROOR
         message = exc

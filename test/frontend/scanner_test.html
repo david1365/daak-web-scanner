@@ -7,10 +7,16 @@
 </head>
 <body>
 
+<img id='#im1'>
+<input id='#im2' type="image">
+
 <script>
-   var dd = daak.scanners()
-   alert(dd)
-//    alert(dd._data[0].id)
+//   var dd = daak.scanners()
+//   alert(dd)
+
+daak('#im1').scan()
+daak('#im2').scan()
+//   document.body.appendChild(daak.scan('twain-0'));
 
 </script>
 </body>
