@@ -142,6 +142,10 @@ var daak = (function ()
     }
 
     var _scan = function (id) {
+        if (!id){
+            throw new Error('Please set scanner id!');
+        }
+
         return runCommand(id);
     }
 
@@ -220,11 +224,22 @@ var daak = (function ()
             }
         },
         scan: function (id) {
-            // var result = _scan(id);
-            //
-            // var image = new Image();
-            // image.src = 'data:image/png;base64,' + result._data;
-            alert(this.tagName)
+            var accept = {'INPUT' : 0, 'IMG': 1}
+            var tagName = this.tagName;
+
+            if (!(tagName in accept)){
+                throw new Error('daak -> Dont work for tag "' + tagName + '"!');
+            }
+
+            if(tagName === 'INPUT'){
+                var type = this.getAttribute('type');
+                if (type !== 'image'){
+                    throw new Error('daak -> Dont work for tag "' + tagName + '" with type "' + type + '"!');
+                }
+            }
+
+            var result = _scan(id);
+            this.src = 'data:image/png;base64,' + result._data;
         }
     }
 

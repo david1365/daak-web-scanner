@@ -60,3 +60,23 @@ QUnit.test( "ajax json ", function( assert ) {
         }
     })
 });
+
+
+QUnit.test( "image scan throws for other tag", function( assert ) {
+    assert.throws(
+        function() {
+            daak('#b1').scan()
+        },
+        "throws with just a message, not using the 'expected' argument"
+    );
+});
+
+
+QUnit.test( "image scan throws for input without image", function( assert ) {
+    assert.throws(
+        function() {
+            daak('#im1').scan()
+        },
+        "throws with just a message, not using the 'expected' argument"
+    );
+});

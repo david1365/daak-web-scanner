@@ -8,6 +8,7 @@ from daak.backend.facade.scanner import Scanner
 from daak.backend.helper.decorator import to_json
 from enum import Enum
 
+from daak.backend.helper.validation import check_scanner_id
 
 
 class Status(Enum):
@@ -56,6 +57,12 @@ def scan(scanner_id):
     status = Status.OK
     message = None
 
+    if not scanner_id or scanner_id == 'undefined':
+        return Response(data=data, status=Status.EROOR, message='Please set scanner id!')
+
+    if not check_scanner_id(scanner_id):
+        return Response(data=data, status=Status.EROOR, message='Scanner Id is incorrect!')
+
     try:
         image = scanner.scan(scanner_id)
         buffer = cStringIO.StringIO()
@@ -68,7 +75,7 @@ def scan(scanner_id):
     except Exception, exc:
         status = Status.EROOR
         message = exc
-        logging.debug(exc)
+        # logging.debug(exc)
 
     return Response(data=data, status=status, message=message)
 
