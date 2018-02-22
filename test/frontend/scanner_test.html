@@ -5,18 +5,39 @@
     <title>Scanner Test</title>
 
 </head>
-<body>
+<style>
+    .dv{
+        width: 100%;
+        display: block;
+        height: 500px;
+        overflow: auto;
 
-<img id='im1'>
-<input id='im2' type="image">
+        border: 1px black dashed;
+    }
+</style>
+
+<body>
+<button id="b1">scan</button>
+
+<div  class="dv">
+    <div id='d'></div>
+    <img id='im1'>
+</div>
+
+<!--<input id='im2' type="image">-->
+
 
 <script src="../../daak/frontend/daak.js"></script>
 <script>
 //   var dd = daak.scanners()
 //   alert(dd)
-
+daak('#b1').addEventListener('click', function () {
+    daak('#d').innerHTML = 'loading...';
+    daak('#im1').scan('twain-0');
+    daak('#d').innerHTML = '';
+})
 //daak('#im1').scan('twain-0')
-daak('#im2').scan('twain-0')
+//daak('#im2').scan('twain-0')
 //   document.body.appendChild(daak.scan('twain-0'));
 
 </script>

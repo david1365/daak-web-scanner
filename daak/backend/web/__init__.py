@@ -66,7 +66,7 @@ def scan(scanner_id):
     try:
         image = scanner.scan(scanner_id)
         buffer = cStringIO.StringIO()
-        image.save(buffer, format="PNG")
+        image.save(buffer, format="PNG")#, dpi=(100, 100))
         data = base64.b64encode(buffer.getvalue())
 
     #TODO: select one of them
