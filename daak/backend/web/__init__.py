@@ -2,14 +2,13 @@ import logging
 import base64
 import cStringIO
 
-from flask import jsonify
 from daak.backend.facade.scanner import Scanner
+from daak.backend.helper.decorator import to_json
+from enum import Enum
 
-#TODO: inherit from enum
-# from enum import Enum
 
-#TODO: inherit from enum
-class Status:
+
+class Status(Enum):
     OK = 0
     EROOR = 1
 
@@ -32,6 +31,7 @@ class Response(object):
         return self.__dict__
 
 
+@to_json
 def list_scanner_names():
     scanner = Scanner()
     data = None
@@ -45,10 +45,9 @@ def list_scanner_names():
         message = exc
         logging.debug(exc)
 
-    response = Response(data=data, status=status, message=message)
-    return jsonify(response.json_serialize())
+    return Response(data=data, status=status, message=message)
 
-
+@to_json
 def scan(scanner_id):
     scanner = Scanner()
     data = None
@@ -65,6 +64,5 @@ def scan(scanner_id):
         message = exc
         logging.debug(exc)
 
-    response = Response(data=data, status=status, message=message)
-    return jsonify(response.json_serialize())
+    return Response(data=data, status=status, message=message)
 
