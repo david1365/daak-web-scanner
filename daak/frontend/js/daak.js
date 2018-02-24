@@ -207,12 +207,66 @@ var daak = (function ()
             return elem;
         },
 
+        querySelectorAll: function (selector) {
+            var elems = this[REAL + 'querySelectorAll'](selector);
+
+            for (var i = 0; i < elems.length; i++){
+                elems[i] = daak(elems[i]);
+            }
+
+            return elems;
+        },
+
         addEventListener: function (type,listener) {
             if (document.addEventListener) {                // For all major browsers, except IE 8 and earlier
                 this[REAL + 'addEventListener'](type, listener);
             } else if (document.attachEvent) {              // For IE 8 and earlier versions
                 this.attachEvent("on" + type, listener);
             }
+        },
+
+        top: function (value) {
+            if (value){
+                this.style.top = value + 'px'
+                return false;
+            }
+
+            var top = this.style.top.replace('px', '');
+            return parseFloat(top);
+        },
+
+        left: function (value) {
+            if (value){
+                this.style.left = value + 'px'
+                return false;
+            }
+
+            var left = this.style.left.replace('px', '');
+            return parseFloat(left);
+        },
+
+        width: function (value) {
+            if (value){
+                this.style.width = value + 'px'
+                return false;
+            }
+
+            var width = this.style.width.replace('px', '');
+            return parseFloat(width);
+        },
+
+        height: function (value) {
+            if (value){
+                this.style.height = value + 'px'
+                return false;
+            }
+
+            var height = this.style.height.replace('px', '');
+            return parseFloat(height);
+        },
+
+        parent: function () {
+            return daak(this.parentElement);
         },
 
         data: function (name, value) {
