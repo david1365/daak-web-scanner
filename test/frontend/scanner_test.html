@@ -4,38 +4,91 @@
     <meta charset="UTF-8">
     <title>Scanner Test</title>
 
+    <!-- daak-crop.css -->
+    <link rel="stylesheet" href="../../daak/frontend/css/daak-crop.css" media="screen"/>
+
 </head>
 <style>
-    .dv{
-        width: 100%;
-        display: block;
-        height: 500px;
-        overflow: auto;
 
-        border: 1px black dashed;
+    html, body {
+        width: 100%;
+        min-height: 100% !important;
+        height: 100%;
     }
+    /*.dv{*/
+        /*width: 100%;*/
+        /*display: block;*/
+        /*height: 500px;*/
+        /*overflow: auto;*/
+
+        /*border: 1px black dashed;*/
+    /*}*/
+
 </style>
 
 <body>
-<button id="b1">scan</button>
+<!--<button id="b1">scan</button>-->
 
-<div  class="dv">
-    <div id='d'></div>
-    <img id='im1'>
+<!--<div  class="dv">-->
+    <!--<div id='d'></div>-->
+    <!--<img id='im1'>-->
+<!--</div>-->
+
+
+<div id="mg" class="daak-photo-manager">
+    <div class="daak-crop">
+        <div class="daak-table-container">
+            <div class="daak-handle-top"></div>
+            <div class="daak-handle-left-top"></div>
+            <div class="daak-handle-left"></div>
+            <div class="daak-handle-left-bottom"></div>
+            <div class="daak-handle-right-top"></div>
+            <div class="daak-handle-right"></div>
+            <div class="daak-handle-right-bottom"></div>
+            <div class="daak-handle-bottom"></div>
+            <table>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <canvas>
+
+
+    </canvas>
 </div>
+
 
 <!--<input id='im2' type="image">-->
 
 
-<script src="../../daak/frontend/daak.js"></script>
+<script src="../../daak/frontend/js/daak.js"></script>
+<script src="../../daak/frontend/js/daak-crop.js"></script>
 <script>
+    var parent = daak('#mg');
+    var daakCrop = daak(parent.querySelectorAll('.daak-crop')[0]);
+    daakCrop.move(parent)
+
 //   var dd = daak.scanners()
 //   alert(dd)
-daak('#b1').addEventListener('click', function () {
-    daak('#d').innerHTML = 'loading...';
-    daak('#im1').scan('twain-0');
-    daak('#d').innerHTML = '';
-})
+//daak('#b1').addEventListener('click', function () {
+//    daak('#d').innerHTML = 'loading...';
+//    daak('#im1').scan('twain-0');
+//    daak('#d').innerHTML = '';
+//})
 //daak('#im1').scan('twain-0')
 //daak('#im2').scan('twain-0')
 //   document.body.appendChild(daak.scan('twain-0'));
