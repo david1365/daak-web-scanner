@@ -1,6 +1,6 @@
 ;(function( daak, window, document, undefined ) {
     daak.createCrop = function (parent, x, y) {
-        var crop = '<div class="daak-crop">\n' +
+        var crop = '<div daak-type="crop" class="daak-crop">\n' +
             '        <div class="daak-handle-top"></div>\n' +
             '        <div class="daak-handle-left-top"></div>\n' +
             '        <div class="daak-handle-left"></div>\n' +
@@ -206,6 +206,26 @@
                  if (mouseDown) {
                      crop.left(x - crop.data('diffX'));
                      crop.top(y - crop.data('diffY'));
+
+                     var canvas = document.getElementById('cn1');
+                     var context = canvas.getContext('2d');
+
+                     var
+                        left = parseInt(crop.left()),
+                        top = parseInt(crop.top()),
+                        width =  crop.width(),
+                        height = crop.height() ;
+
+                     var imgData = context.getImageData(left, top, width, height);
+                     var cn2 = document.getElementById('cn2');
+                     var cx2 = cn2.getContext('2d');
+
+                     cn2.width = crop.width();
+                     cn2.height = crop.height();
+                     // cn2.style.backgroundColor = 'red';
+
+                     // context2.putImageData(imgData, 0, 0);
+                     cx2.putImageData(imgData,0, 0);
 
                      return false;
                  }

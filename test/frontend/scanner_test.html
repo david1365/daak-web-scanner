@@ -16,11 +16,11 @@
 </head>
 <style>
 
-    html, body {
-        width: 100%;
-        min-height: 100% !important;
-        height: 100%;
-    }
+    /*html, body {*/
+        /*width: 100%;*/
+        /*min-height: 100% !important;*/
+        /*height: 100%;*/
+    /*}*/
     /*.dv{*/
         /*width: 100%;*/
         /*display: block;*/
@@ -40,12 +40,20 @@
     <!--<img id='im1'>-->
 <!--</div>-->
 
+<canvas id="cn2" style="position: fixed;
 
-<div id="mg" class="daak-photo-manager no-select">
-    <canvas>
+background-color: red;
+"></canvas>
+
+<div id="mg" class="daak-photo-manager no-select" daak-type="photo-manager">
+
+
+    <canvas id="cn1" >
 
     </canvas>
 </div>
+
+<img id="image" >
 
 
 <!--<input id='im2' type="image">-->
@@ -57,6 +65,9 @@
 <script>
     var pm = daak('#mg');
     pm.alivePhotoManager();
+    var img = document.getElementById('image');//daak('#image');
+    pm.src("../../daak/frontend/images/cc_iStock-478639870_16x9.jpg");
+//    pm.src(img)
 
 //   var dd = daak.scanners()
 //   alert(dd)
