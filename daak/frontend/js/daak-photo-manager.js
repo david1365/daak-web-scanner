@@ -34,7 +34,7 @@
                 crop.data('screenOldY', oldY);
                 crop.data('oldCropLeft', oldX);
                 crop.data('oldCropTop', oldY);
-                crop.data('oldCropHeight', -100);
+                crop.data('oldCropHeight', 5);
                 crop.data('oldCropWidth', 5);
 
                 if ((oldX < x) && (oldY < y)) {
@@ -50,6 +50,12 @@
                 }
 
                 if ((oldX < x)) {
+                    crop.data('rightBottomMouseDown', true);
+
+                    return false;
+                }
+
+                if (oldY < y) {
                     crop.data('rightBottomMouseDown', true);
 
                     return false;

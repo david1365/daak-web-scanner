@@ -1,6 +1,7 @@
 .daak-photo-manager {
-    width: 100%;
-    height: 100%;
+    width: 210mm;
+    height: 297mm;
+    /*margin: auto;*/
     background-image: url("../images/daakchessboard.jpg");
     position: relative;
     cursor:crosshair;
