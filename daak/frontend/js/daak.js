@@ -272,6 +272,12 @@ var daak = (function ()
             this.dispatchEvent(event);
         },
 
+        visible: function(value) {
+            var visibility = value === true ? 'visible' : 'hidden';
+
+            this.style.visibility = visibility;
+        },
+
         remove : function () {
             this.parent().removeChild(this);
         },

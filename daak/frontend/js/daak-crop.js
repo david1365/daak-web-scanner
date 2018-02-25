@@ -29,11 +29,11 @@
             '    </div>'
 
         var daakCrop = daak(crop);
+        parent.appendChild(daakCrop);
 
         daakCrop.left(x);
         daakCrop.top(y);
 
-        parent.appendChild(daakCrop);
         daakCrop.aliveCrop();
 
         return daakCrop;

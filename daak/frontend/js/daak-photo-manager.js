@@ -4,21 +4,27 @@
 
         this.addEventListener('mousedown', function (e) {
             var
-                crop = this.find('.daak-crop')[0];
+                crop = this.find('.daak-crop')[0],
+                rect = this.getBoundingClientRect(),
+                x = e.clientX,
+                y = e.clientY;
 
             if (crop) {
                 crop.remove();
             }
 
+            crop = daak.createCrop(this, x, y - rect.top);
+            crop.visible(false);
+
             this.data('mouseDown', true);
-            this.data('oldX', e.clientX);
-            this.data('oldY', e.clientY);
+            this.data('oldX', x);
+            this.data('oldY', y);
         })
 
         this.addEventListener('mousemove', function (e) {
             var
                 x = e.clientX,
-                y = e.clientY,
+                y = e.clientY ,
                 oldX = this.data('oldX'),
                 oldY = this.data('oldY'),
                 mouseDown = this.data('mouseDown');
@@ -26,10 +32,8 @@
             if( mouseDown ){
                 var
                     crop = this.find('.daak-crop')[0];
-                    if( !crop ) {
-                        crop = daak.createCrop(this, x, y);
-                    }
 
+                crop.visible(true);
                 crop.data('screenOldX', oldX);
                 crop.data('screenOldY', oldY);
                 crop.data('oldCropLeft', oldX);
@@ -39,6 +43,7 @@
 
                 if ((oldX < x) && (oldY < y)) {
                     crop.data('rightBottomMouseDown', true);
+                    this.style.position('relative');
 
                     return false;
                 }
