@@ -1,17 +1,3 @@
-@CHARSET "UTF-8";
-
-.daak-photo-manager {
-    width: 100%;
-    height: 100%;
-    background-image: url("../images/daakchessboard.jpg");
-    position: relative;
-}
-
-.daak-photo-manager > canvas {
-    width: 100%;
-    height: 100%;
-}
-
 .daak-crop {
     position: absolute;
     cursor:move;

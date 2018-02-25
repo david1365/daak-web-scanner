@@ -5055,7 +5055,7 @@
 
   	/**
     * Reorder and merge like edit sections.  Merge equalities.
-    * Any edit section can move as long as it doesn't cross an equality.
+    * Any edit section can aliveCrop as long as it doesn't cross an equality.
     * @param {!Array.<!DiffMatchPatch.Diff>} diffs Array of diff tuples.
     */
   	DiffMatchPatch.prototype.diffCleanupMerge = function (diffs) {

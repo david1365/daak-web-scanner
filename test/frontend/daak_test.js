@@ -80,3 +80,38 @@ QUnit.test( "image scan throws for input without image", function( assert ) {
         "throws with just a message, not using the 'expected' argument"
     );
 });
+
+QUnit.test( "", function( assert ) {
+    assert.throws(
+        function() {
+            daak('#im1').scan()
+        },
+        "throws with just a message, not using the 'expected' argument"
+    );
+});
+
+QUnit.test( "string isBoolean Test", function( assert ) {
+    assert.ok( 'true'.isBoolean() === true, "true...Passed!" );
+    assert.ok( 'false'.isBoolean() === true, "false...Passed!" );
+    assert.ok( 'ali'.isBoolean() === false, "ali...Passed!" );
+    assert.ok( '123.5'.isBoolean() === false, "123.5...Passed!" );
+    assert.ok( '123'.isBoolean() === false, "123...Passed!" );
+});
+
+QUnit.test( "parsBool test", function( assert ) {
+    assert.ok( parseBool('true') === true, "parseBool('true')...Passed!" );
+    assert.ok( parseBool('false') === false, "parseBool('false')...Passed!" );
+});
+
+QUnit.test( "isNumber test", function( assert ) {
+    assert.ok( 'true'.isNumber() === false, "'true'.isNumber()...Passed!" );
+    assert.ok( '123'.isNumber()  === true, "'123'.isNumber()...Passed!" );
+    assert.ok( '12.5'.isNumber()  === false, "'12.5'.isNumber()...Passed!" );
+});
+
+QUnit.test( "isFloat test", function( assert ) {
+    assert.ok( 'true'.isFloat() === false, "'true'.isFloat()...Passed!" );
+    assert.ok( '123'.isFloat()  === true, "'123'.isFloat()...Passed!" );
+    assert.ok( '12.5'.isFloat()  === true, "'12.5'.isFloat()...Passed!" );
+});
+

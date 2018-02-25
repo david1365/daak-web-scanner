@@ -10,6 +10,9 @@
     <!-- daak-crop.css -->
     <link rel="stylesheet" href="../../daak/frontend/css/daak-crop.css" media="screen"/>
 
+    <!-- daak-photo-manager.css -->
+    <link rel="stylesheet" href="../../daak/frontend/css/daak-photo-manager.css" media="screen"/>
+
 </head>
 <style>
 
@@ -39,33 +42,6 @@
 
 
 <div id="mg" class="daak-photo-manager no-select">
-    <div class="daak-crop">
-        <div class="daak-handle-top"></div>
-        <div class="daak-handle-left-top"></div>
-        <div class="daak-handle-left"></div>
-        <div class="daak-handle-left-bottom"></div>
-        <div class="daak-handle-right-top"></div>
-        <div class="daak-handle-right"></div>
-        <div class="daak-handle-right-bottom"></div>
-        <div class="daak-handle-bottom"></div>
-        <table>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-    </div>
     <canvas>
 
 
@@ -78,10 +54,10 @@
 
 <script src="../../daak/frontend/js/daak.js"></script>
 <script src="../../daak/frontend/js/daak-crop.js"></script>
+<script src="../../daak/frontend/js/daak-photo-manager.js"></script>
 <script>
-    var parent = daak('#mg');
-    var daakCrop = parent.querySelectorAll('.daak-crop')[0];//daak(parent.querySelectorAll('.daak-crop')[0]);
-    daakCrop.move(parent)
+    var pm = daak('#mg');
+    pm.alivePhotoManager();
 
 //   var dd = daak.scanners()
 //   alert(dd)

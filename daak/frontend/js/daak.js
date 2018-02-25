@@ -1,3 +1,32 @@
+String.prototype.isBoolean = function () {
+    var str = this.toLowerCase();
+    if (str === 'true' || str === 'false') {
+        return true;
+    }
+
+    return false;
+}
+
+String.prototype.isNumber = function () {
+    if (this.match(daak.NUMBER_REGEX)){
+        return true;
+    }
+
+    return false;
+}
+
+String.prototype.isFloat = function () {
+    if (this.match(daak.FLAOT_REGEX)){
+        return true;
+    }
+
+    return false;
+}
+
+window.parseBool = function (value) {
+    return JSON.parse(value);
+}
+
 var daak = (function ()
 {
     // Create local daak
@@ -8,6 +37,8 @@ var daak = (function ()
     };
 
     const REAL ='real-';
+    daak.NUMBER_REGEX = /^[0-9]+$/;
+    daak.FLAOT_REGEX = /^[+-]?\d+(\.\d+)?$/;
     daak.oa = {};
 
     const Status = {
@@ -217,12 +248,32 @@ var daak = (function ()
             return elems;
         },
 
+        find: function (selector) {
+            return this.querySelectorAll(selector);
+        },
+
         addEventListener: function (type,listener) {
             if (document.addEventListener) {                // For all major browsers, except IE 8 and earlier
                 this[REAL + 'addEventListener'](type, listener);
             } else if (document.attachEvent) {              // For IE 8 and earlier versions
                 this.attachEvent("on" + type, listener);
             }
+        },
+
+        triggerEvent: function(eventName, options) {
+            var event;
+            if (window.CustomEvent) {
+                event = new CustomEvent(eventName, options);
+            } else {
+                event = document.createEvent('CustomEvent');
+                event.initCustomEvent(eventName, true, true, options);
+            }
+
+            this.dispatchEvent(event);
+        },
+
+        remove : function () {
+            this.parent().removeChild(this);
         },
 
         top: function (value) {
@@ -271,7 +322,23 @@ var daak = (function ()
 
         data: function (name, value) {
             if (!value && value === undefined){
-               return this.getAttribute("daak-" + name);
+                value = this.getAttribute("daak-" + name);
+
+                if (value) {
+                    if (value.isBoolean()) {
+                        return parseBool(value);
+                    }
+
+                    if (value.isNumber()) {
+                        return parseInt(value);
+                    }
+
+                    if (value.isFloat()) {
+                        return parseFloat(value);
+                    }
+                }
+
+               return value;
             }
             else{
                 this.setAttribute("daak-" + name, value);
@@ -341,7 +408,7 @@ var daak = (function ()
             DOM = parser.parseFromString(string, content);
 
         // return element
-        return DOM.body;
+        return DOM.body.firstChild;
     }
 
 
