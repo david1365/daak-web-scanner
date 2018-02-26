@@ -168,6 +168,26 @@
             return false;
         }
 
+        var showSelection = function (crop) {
+            var
+                showImage = crop.parent().getElementsByTagName('canvas')[0];//.find('.daak-showImage')[0],
+                showImageCtx = showImage.getContext('2d'),
+
+                selectionImage = crop.parent().getElementsByTagName('canvas')[1];//.find('.daak-selectionImage')[0],
+                selectionImageCtx = selectionImage.getContext('2d'),
+
+                left = crop.left(),
+                top = crop.top(),
+                width =  crop.width(),
+                height = crop.height();
+
+            var imgData = showImageCtx.getImageData(left, top, width, height);
+
+            selectionImage.width = crop.width();
+            selectionImage.height = crop.height();
+            selectionImageCtx.putImageData(imgData,0, 0);
+        }
+
         this.parent().addEventListener('mousemove', function (e) {
             e.stopPropagation();
             var
@@ -207,25 +227,7 @@
                      crop.left(x - crop.data('diffX'));
                      crop.top(y - crop.data('diffY'));
 
-                     var canvas = document.getElementById('cn1');
-                     var context = canvas.getContext('2d');
-
-                     var
-                        left = parseInt(crop.left()),
-                        top = parseInt(crop.top()),
-                        width =  crop.width(),
-                        height = crop.height() ;
-
-                     var imgData = context.getImageData(left, top, width, height);
-                     var cn2 = document.getElementById('cn2');
-                     var cx2 = cn2.getContext('2d');
-
-                     cn2.width = crop.width();
-                     cn2.height = crop.height();
-                     // cn2.style.backgroundColor = 'red';
-
-                     // context2.putImageData(imgData, 0, 0);
-                     cx2.putImageData(imgData,0, 0);
+                     showSelection(crop)
 
                      return false;
                  }

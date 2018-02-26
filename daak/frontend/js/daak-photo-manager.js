@@ -1,31 +1,17 @@
 ;(function( daak, window, document, undefined ) {
     daak.fn.src = function (value) {
-        // var canvas = daak('<canvas></canvas>');
-        // var context = canvas.getContext("2d");
-        //
-        // this.appendChild(canvas);
-        //
-        // var img = new Image();
-        // img.onload = function () {
-        //     context.drawImage(img, 0, 0);
-        // }
-
-        // var canvas  = this.getElementsByTagName('canvas')[0];
-        var ctx = this.getContext('2d');
-        // this.appendChild(canvas);
+        var canvas  = this.find('.daak-showImage')[0];
+        var ctx = canvas.getContext('2d');
 
         var img = new Image();
         img.src = value;
 
-        var self = daak(this);
         img.onload = function (e) {
-            self.width(this.naturalWidth);
-            self.height(this.naturalHeight);
+            canvas.width = this.naturalWidth;
+            canvas.height = this.naturalHeight;
 
             ctx.drawImage(this, 0, 0);
-
             ctx.drawImage(this, 0, 0, this.width, this.height);
-
         }
     }
 
@@ -43,7 +29,7 @@
                 crop.remove();
             }
 
-            crop = daak.createCrop(this, x, y - rect.top);
+            crop = daak.createCrop(this, x - rect.left , y - rect.top);
             crop.visible(false);
 
             this.data('mouseDown', true);
@@ -53,6 +39,7 @@
 
         this.addEventListener('mousemove', function (e) {
             var
+                rect = this.getBoundingClientRect(),
                 x = e.clientX,
                 y = e.clientY ,
                 oldX = this.data('oldX'),
@@ -78,6 +65,9 @@
                 }
 
                 if ((oldY < y) || (oldX > x)) {
+                    crop.data('oldCropLeft', oldX - rect.left);
+                    crop.data('oldCropTop', oldY - rect.top);
+
                     crop.data('leftBottomMouseDown', true);
 
                     return false;
