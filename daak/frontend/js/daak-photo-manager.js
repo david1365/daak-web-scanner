@@ -10,16 +10,17 @@
         //     context.drawImage(img, 0, 0);
         // }
 
-        var canvas  = this.getElementsByTagName('canvas')[0];
-        var ctx = canvas.getContext('2d');
-        this.appendChild(canvas);
+        // var canvas  = this.getElementsByTagName('canvas')[0];
+        var ctx = this.getContext('2d');
+        // this.appendChild(canvas);
 
         var img = new Image();
         img.src = value;
 
+        var self = daak(this);
         img.onload = function (e) {
-            canvas.width = this.naturalWidth;
-            canvas.height = this.naturalHeight;
+            self.width(this.naturalWidth);
+            self.height(this.naturalHeight);
 
             ctx.drawImage(this, 0, 0);
 

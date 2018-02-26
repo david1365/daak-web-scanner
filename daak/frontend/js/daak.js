@@ -39,7 +39,7 @@ var daak = (function ()
     const REAL ='real-';
     daak.NUMBER_REGEX = /^[0-9]+$/;
     daak.FLAOT_REGEX = /^[+-]?\d+(\.\d+)?$/;
-    daak.oa = {};
+    // daak.oa = {};
 
     const Status = {
         OK: 0,
@@ -284,7 +284,7 @@ var daak = (function ()
 
         top: function (value) {
             if (value){
-                this.style.top = value + 'px'
+                this.style.top = value + 'px';
                 return false;
             }
 
@@ -294,7 +294,7 @@ var daak = (function ()
 
         left: function (value) {
             if (value){
-                this.style.left = value + 'px'
+                this.style.left = value + 'px';
                 return false;
             }
 
@@ -304,7 +304,7 @@ var daak = (function ()
 
         width: function (value) {
             if (value){
-                this.style.width = value + 'px'
+                this.style.width = value + 'px';
                 return false;
             }
 
@@ -314,7 +314,7 @@ var daak = (function ()
 
         height: function (value) {
             if (value){
-                this.style.height = value + 'px'
+                this.style.height = value + 'px';
                 return false;
             }
 
@@ -351,7 +351,7 @@ var daak = (function ()
             }
         },
         scan: function (id) {
-            var accept = {'INPUT' : 0, 'IMG': 1}
+            var accept = {'INPUT' : 0, 'IMG': 1};
             var tagName = this.tagName;
 
             if (!(tagName in accept)){
@@ -385,11 +385,11 @@ var daak = (function ()
     var addFn = function (elem) {
         for(var propertyName in daak.fn) {
             if (propertyName !== 'init') {
-                if (propertyName.indexOf('daak-') == 0){
-                    if (!daak.oa[propertyName]) {
-                        daak.oa[propertyName] = null;
-                    }
-                }
+                // if (propertyName.indexOf('daak-') == 0){
+                //     if (!daak.oa[propertyName]) {
+                //         daak.oa[propertyName] = null;
+                //     }
+                // }
 
                 var property = daak.fn[propertyName];
 
@@ -400,13 +400,13 @@ var daak = (function ()
         }
     }
 
-    var addProperties = function (elem, object) {
-        for(var propertyName in object) {
-            var property = object[propertyName];
-
-            elem[propertyName] = property;
-        }
-    }
+    // var addProperties = function (elem, object) {
+    //     for(var propertyName in object) {
+    //         var property = object[propertyName];
+    //
+    //         elem[propertyName] = property;
+    //     }
+    // }
 
     daak.parseHTML = function(string) {
         var parser = new DOMParser(),
