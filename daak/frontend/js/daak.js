@@ -1,3 +1,8 @@
+if (!Element.prototype.matches) {
+    Element.prototype.matches = Element.prototype.msMatchesSelector ||
+        Element.prototype.webkitMatchesSelector;
+}
+
 String.prototype.isBoolean = function () {
     var str = this.toLowerCase();
     if (str === 'true' || str === 'false') {
@@ -238,8 +243,8 @@ var daak = (function ()
             return elem;
         },
 
-        querySelectorAll: function (selector) {
-            var elems = this[REAL + 'querySelectorAll'](selector);
+        find: function (selector) {
+            var elems = this.querySelectorAll(selector);
 
             for (var i = 0; i < elems.length; i++){
                 elems[i] = daak(elems[i]);
@@ -248,9 +253,9 @@ var daak = (function ()
             return elems;
         },
 
-        find: function (selector) {
-            return this.querySelectorAll(selector);
-        },
+        // find: function (selector) {
+        //     return this.querySelectorAll(selector);
+        // },
 
         addEventListener: function (type,listener) {
             if (document.addEventListener) {                // For all major browsers, except IE 8 and earlier
@@ -350,6 +355,7 @@ var daak = (function ()
                 this.setAttribute("daak-" + name, value);
             }
         },
+
         scan: function (id) {
             var accept = {'INPUT' : 0, 'IMG': 1};
             var tagName = this.tagName;
@@ -415,6 +421,19 @@ var daak = (function ()
 
         // return element
         return DOM.body.firstChild;
+    }
+
+    //TODO: resolve Polyfill for IE8 and other browser -> https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
+    if (!Element.prototype.closest) {
+        daak.fn.closest = function (selector) {
+            var el = this;
+            if (!document.documentElement.contains(el)) return null;
+            do {
+                if (el.matches(selector)) return el;
+                el = el.parentElement || el.parentNode;
+            } while (el !== null && el.nodeType === 1);
+            return null;
+        }
     }
 
 

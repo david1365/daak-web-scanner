@@ -170,22 +170,24 @@
 
         var showSelection = function (crop) {
             var
-                showImage = crop.parent().getElementsByTagName('canvas')[0];//.find('.daak-showImage')[0],
+                showImage = crop.parent().getElementsByTagName('canvas')[0],
                 showImageCtx = showImage.getContext('2d'),
+                rect = showImage.getBoundingClientRect(),
 
-                selectionImage = crop.parent().getElementsByTagName('canvas')[1];//.find('.daak-selectionImage')[0],
-                selectionImageCtx = selectionImage.getContext('2d'),
+                selectionImage = crop.parent().getElementsByTagName('canvas')[1],
+                selectionImageCtx = selectionImage.getContext('2d');
 
-                left = crop.left(),
-                top = crop.top(),
-                width =  crop.width(),
-                height = crop.height();
+            var imgData = showImageCtx.getImageData(crop.left() - (rect.left - 10), crop.top() - (rect.top - 10), crop.width(), crop.height());
 
-            var imgData = showImageCtx.getImageData(left, top, width, height);
+            // selectionImageCtx.clearRect(0, 0, selectionImage.width, selectionImage.height);
 
             selectionImage.width = crop.width();
             selectionImage.height = crop.height();
+
             selectionImageCtx.putImageData(imgData,0, 0);
+
+            selectionImageCtx.restore();
+            imgData = null;
         }
 
         this.parent().addEventListener('mousemove', function (e) {
@@ -227,7 +229,7 @@
                      crop.left(x - crop.data('diffX'));
                      crop.top(y - crop.data('diffY'));
 
-                     showSelection(crop)
+                     showSelection(crop);
 
                      return false;
                  }

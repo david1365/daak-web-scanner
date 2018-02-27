@@ -1,27 +1,96 @@
 .daak-photo-manager {
     position: relative;
-    background-image: url("../images/daakchessboard.jpg");
     cursor:crosshair;
-    display: inline-block;
-}
-
-.daak-showImage, .daak-selectionImage {
-    padding: 0 !important;
-}
-
-.daak-showImage {
-
-    /*width: 210mm;*/
-    /*height:276mm;*/
-    /*box-shadow: 5px 10px 18px #888888;*/
+    width: 100%;
+    border: 1px #747474b3 solid;
+    height: 100%;
+    background-image: url("../images/daakchessboard.jpg");
 }
 
 .daak-selectionImage {
-    position: absolute;
-    background-color: red;
+    padding: 0 !important;
+    background-image: url("../images/daakchessboard.jpg");
+}
 
-    z-index: 3;
-    /*width: 210mm;*/
-    /*height:276mm;*/
-    /*box-shadow: 5px 10px 18px #888888;*/
+.daak-content {
+    overflow: auto;
+    display: inline-block;
+    width: 80%;
+    height: 100%;
+}
+
+.daak-toolbox {
+    display: inline-block;
+    width: 19%;
+    vertical-align: top;
+    position: fixed;
+    height: 100%;
+    background-color: rgb(255,255,255);
+    padding-left: 5px;
+}
+.daak-window {
+    text-align: center;
+    box-shadow: 0px 1px 4px #888888;
+    height: 100px;
+    padding: 5px;
+    margin: 3px;
+    margin-bottom: 10px;
+}
+
+.daak-tools {
+    text-align: center;
+}
+
+.daak-tools button {
+    border-radius: 100%;
+    height: 35px;
+    width: 35px;
+    border: 0;
+    cursor: pointer;
+    box-shadow: 0px 3px 4px #888888;
+}
+
+.daak-tools button:hover {
+    box-shadow: 0px 1px 4px #888888;
+}
+
+.daak-tools button:active {
+    box-shadow: 0px 1px 4px #888888 inset;
+}
+
+button:focus {outline:0;}
+
+.daak-showImage {
+    border: 2px red solid;
+}
+
+.daak-selectionImage {
+    border: 1px rgb(128, 120, 120) solid;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+[class ^= 'daak-icon']{
+    border: 1px solid silver;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.daak-icon-zoom-in {
+    background-image: url("../images/zoom-in.png");
+}
+
+.daak-icon-zoom-out {
+    background-image: url("../images/zoom-out.png");
+}
+
+.daak-icon-crop {
+    background-image: url("../images/crop.png");
+}
+
+.daak-icon-rotate {
+    background-image: url("../images/rotate.png");
+}
+
+.daak-icon-send {
+    background-image: url("../images/send.png");
 }

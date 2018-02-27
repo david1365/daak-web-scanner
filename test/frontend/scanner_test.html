@@ -16,11 +16,13 @@
 </head>
 <style>
 
-    /*html, body {*/
-        /*width: 100%;*/
-        /*min-height: 100% !important;*/
-        /*height: 100%;*/
-    /*}*/
+    html, body {
+        width: 100%;
+        min-height: 100% !important;
+        height: 100%;
+
+        overflow: hidden;
+    }
     /*.dv{*/
         /*width: 100%;*/
         /*display: block;*/
@@ -41,8 +43,22 @@
 <!--</div>-->
 
 <div id="mg" class="daak-photo-manager no-select" daak-type="photo-manager">
-    <canvas class="daak-showImage"></canvas>
-    <canvas class="daak-selectionImage"></canvas>
+    <aside class="daak-content">
+        <canvas class="daak-showImage"></canvas>
+    </aside>
+    <aside class="daak-toolbox">
+        <section class="daak-window">
+            <canvas class="daak-selectionImage"></canvas>
+        </section>
+
+        <section class="daak-tools">
+            <button class="daak-icon-zoom-in"></button>
+            <button class="daak-icon-zoom-out"></button>
+            <button class="daak-icon-crop"></button>
+            <button class="daak-icon-rotate"></button>
+            <button class="daak-icon-send"></button>
+        </section>
+    </aside>
 </div>
 
 <img id="image" >
