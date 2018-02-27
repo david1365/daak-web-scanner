@@ -61,18 +61,18 @@
                     break;
 
             case 180:
-                parent.data('degree', 360);
+                parent.data('degree', 270);
                 changeCoordinates();
 
                 x = -canvas.width;
                 y = -canvas.height;
                 break;
 
-            case 360:
+            case 270:
                 parent.data('degree', 0);
                 changeCoordinates();
 
-                x = +canvas.width;
+                x = -canvas.height;
                 y = 0;
                 break;
             }
