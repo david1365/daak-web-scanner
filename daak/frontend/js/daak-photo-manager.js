@@ -24,12 +24,18 @@
 
     daak.fn.rotate = function () {
         var
+            x,y,
             canvas  = this.getElementsByClassName('daak-showImage')[0],
             parent = this,
             degree = this.data('degree'),
-            degree = degree == undefined ? 90 : degree;
+            degree = degree == undefined ? 90 : degree,
 
-            document.title = degree
+            changeCoordinates = function() {
+                var tmp = canvas.width;
+                canvas.width =  canvas.height;
+                canvas.height = tmp;
+            };
+
 
         if (canvas) {
             var
@@ -39,46 +45,48 @@
             var img = new Image();
             img.src = src;
 
+            var tmp;
+            switch(degree) {
+                case 0:
+                    parent.data('degree', 90);
+                    changeCoordinates();
+                    break;
+                case 90:
+                    parent.data('degree', 180);
+
+                    x = 0;
+                    y = -canvas.height;
+
+                    changeCoordinates();
+                    break;
+
+            case 180:
+                parent.data('degree', 360);
+                changeCoordinates();
+
+                x = -canvas.width;
+                y = -canvas.height;
+                break;
+
+            case 360:
+                parent.data('degree', 0);
+                changeCoordinates();
+
+                x = +canvas.width;
+                y = 0;
+                break;
+            }
+
             img.onload = function (e) {
-                var
-                    x,y,
-                    naturalWidth = this.naturalWidth,
-                    naturalHeight = this.naturalHeight;
-
-                canvas.width = naturalWidth;
-                canvas.height = naturalHeight;
-
-
                 if (degree == 0) {
                     context.drawImage(this, 0, 0, this.width, this.height);
-                    parent.data('degree', 90);
                     return false;
                 }
 
                 context.rotate(degree * Math.PI/180);
-                switch(degree) {
-                    case 90:
-                        parent.data('degree', 180);
 
-                        var tmp = canvas.height;
-                        canvas.height = canvas.width;
-                        canvas.width = tmp;
-
-                        x = 0;
-                        y = -canvas.height;
-                        break;
-                    case 180:
-                        parent.data('degree', 0);
-
-                        x = -canvas.width;
-                        y = -canvas.height;
-                        break;
-                }
-
-                // context.translate(x, y);
+                context.translate(x, y);
                 context.drawImage(this, 0, 0, this.width, this.height);
-
-
             }
         }
     }
