@@ -35,16 +35,21 @@ window.parseBool = function (value) {
 var daak = (function ()
 {
     // Create local daak
-    var daak = function (selector, context) {
+    var daak = function (selector, versatile) {
         // The daak object is actually just the init constructor 'enhanced'
-        var daakObj = new daak.fn.init(selector, context);
+        var daakObj = new daak.fn.init(selector, versatile);
         return daakObj;
     };
 
     var counts = 0;
-    const REAL ='real-';
+    const
+        REAL ='real-',
+        //TODO: resolve event from name only
+        events = 'click|mouseDown|mouseMove|mouseUp';
+
     daak.NUMBER_REGEX = /^[0-9]+$/;
     daak.FLAOT_REGEX = /^[+-]?\d+(\.\d+)?$/;
+    daak.elems = {};
     // daak.oa = {};
 
     const Status = {
@@ -201,7 +206,7 @@ var daak = (function ()
         // return image;
     }
 
-    var addId = function (elem) {
+    var initialDaak = function (elem) {
         counts++;
         var daakId = '.' + counts.toString();
 
@@ -209,6 +214,33 @@ var daak = (function ()
         elem.data('daak-object', true);
         daak[daakId] = elem;
 
+        addId(daak[daakId]);
+    }
+
+    var stringArguments = function (args) {
+        var sa = '';
+        for (var i = 0; i < args.length; i++){
+            sa += 'args[' + i.toString() + '],' ;
+        }
+
+        return sa.substr(0, sa.length - 1);
+    }
+
+    var createDaakElem = function (daakElem, args) {
+        if (daakElem.render) {
+           var
+               elem = daak(daakElem.render),
+               sa = args != undefined ? stringArguments(args) : '';
+
+           initialDaak(elem);
+           elem.body = daakElem.body;
+           eval('elem.body(' + sa + ')');
+
+           return elem;
+        }
+    }
+
+    var addId = function (elem) {
         var tags = elem.querySelectorAll('*');
         var ids = {};
 
@@ -219,7 +251,7 @@ var daak = (function ()
                 daakBind = tag.data('bind');
 
             if ( daakBind ) {
-                daak[daakId][daakBind] = tag;
+                elem[daakBind] = tag;
             }
 
             ids[parentId] = !ids[parentId] && ids[parentId] === undefined ? 0 : ids[parentId];
@@ -239,14 +271,18 @@ var daak = (function ()
 
     daak.fn = daak.prototype = {
         //Define daak’s fn prototype, specially contains init method
-        init: function (selector, daakObject) {
+        init: function (selector, versatile) {
             var elem;
             if (!selector) {
                 return this;
             }
 
             if (typeof selector === "string") {
-                if ( selector[0] === "<" &&
+                var daakElem = daak.elems[selector];
+                if (daakElem != undefined){
+                   return createDaakElem(daakElem, versatile);
+                }
+                else if ( selector[0] === "<" &&
                     selector[selector.length - 1] === ">" &&
                     selector.length >= 3 ) {
 
@@ -255,9 +291,14 @@ var daak = (function ()
                 else if (selector[0] === '#') {
                     elem = document.getElementById(selector.substr(1, selector.length - 1));
                 }
-                else if (selector[0] === '~') {
-                    var id = selector.substr(1, selector.length - 1);
+                else if (selector[0] + selector[1] === '->') {
+                    var id = selector.substr(2, selector.length - 1);
                     elem = document.querySelectorAll("[daak-id='" + id + "']")[0];
+                }
+                else if (selector[0] === '~') {
+                    var type = selector.substr(1, selector.length - 1);
+                    elem = document.querySelectorAll("[daak-type='" + type + "']")[0];
+                    versatile = true;
                 }
                 else {
                     elem = document.querySelectorAll(selector);
@@ -268,8 +309,9 @@ var daak = (function ()
             }
 
             addFn(elem);
-            if (daakObject === true) {
-                addId(elem);
+
+            if (versatile === true) {
+                initialDaak(elem, versatile);
             }
 
             return elem;
@@ -473,7 +515,6 @@ var daak = (function ()
             return null;
         }
     }
-
 
     // Return "daak" to the global object
     return daak;

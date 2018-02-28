@@ -1,49 +1,61 @@
 ;(function( daak, window, document, undefined ) {
-    daak.fn.src = function (value) {
-        var self = this,
-            imageShow = this.imageShow,
-            context = imageShow.getContext('2d'),
-            img = new Image();
+    daak.elems.PhotoManager = {
+        render: '~photo-manager',
+        body: function (src) {
+            this.click(function (e) {
+                alert(e.target.tagName)
+            })
+            this.src = function (value) {
+                this._src = value;
 
-        this.src = value;
+                var self = this,
+                    imageShow = this.imageShow,
+                    context = imageShow.getContext('2d'),
+                    img = new Image();
 
-        img.src = value;
-        img.onload = function (e) {
-            var
-                naturalWidth = this.naturalWidth,
-                naturalHeight = this.naturalHeight;
+                img.src = value;
+                img.onload = function (e) {
+                    var
+                        naturalWidth = this.naturalWidth,
+                        naturalHeight = this.naturalHeight;
 
-            canvas.width = naturalWidth;
-            canvas.height = naturalHeight;
+                    imageShow.width = naturalWidth;
+                    imageShow.height = naturalHeight;
 
-            self.naturalWidth = naturalWidth;
-            self.naturalHeight = naturalHeight;
-            self.degree = 0;
-            self.zoomCount = 0;
+                    self.naturalWidth = naturalWidth;
+                    self.naturalHeight = naturalHeight;
+                    self.degree = 0;
+                    self.zoomCount = 0;
 
-            context.drawImage(this, 0, 0);
-            context.drawImage(this, 0, 0, this.width, this.height);
+                    context.drawImage(this, 0, 0);
+                    context.drawImage(this, 0, 0, this.width, this.height);
+                }
+
+            }
+
+            this.src(src);
         }
-    };
+    }
+
 
     daak.fn.zoom = function(zoom, type) {
-        var canvas  = this.getElementsByClassName('daak-image-show')[0];
+        var imageShow  = this.imageShow;
 
-        if (canvas) {
+        if (imageShow) {
             var
-                width = type === 'in' ? canvas.width * zoom : canvas.width / zoom,
-                height = type === 'in' ? canvas.height * zoom : canvas.height / zoom,
-                context = canvas.getContext('2d'),
+                width = type === 'in' ? imageShow.width * zoom : imageShow.width / zoom,
+                height = type === 'in' ? imageShow.height * zoom : imageShow.height / zoom,
+                context = imageShow.getContext('2d'),
                 src = this.data('src'),
-                parent = canvas.parent(),
+                parent = imageShow.parent(),
                 zoomCount = parent.data('zoom-count'),
                 step = type === 'in' ? 1 : -1;
 
             zoomCount = zoomCount + step;
             parent.data('zoom-count', zoomCount);
 
-            canvas.width = width;
-            canvas.height = height;
+            imageShow.width = width;
+            imageShow.height = height;
 
             var img = new Image();
             img.src = src;
@@ -116,14 +128,14 @@
 
     daak.rotate = function (degree) {
         var
-            canvas  = this.getElementsByClassName('daak-image-show')[0],
+            imageShow  = this.imageShow,
             src = this.data('src'),
             img = new Image();
 
         img.src = src;
 
-        if (canvas) {
-            var context = canvas.getContext('2d');
+        if (imageShow) {
+            var context = imageShow.getContext('2d');
 
             img.onload = function (e) {
                 context.drawImage(this, 0, 0, this.width, this.height);
@@ -180,7 +192,7 @@
                 crop.remove();
             }
 
-            crop = this.crop = daak.createCrop(this, x - rect.left , y - rect.top);
+            crop = this.crop = daak('Crop', [this, x, y, 'ali']);
             crop.visible(false);
 
             this.mouseDown = true;
