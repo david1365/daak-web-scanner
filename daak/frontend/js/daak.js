@@ -41,6 +41,7 @@ var daak = (function ()
         return daakObj;
     };
 
+    var counts = 0;
     const REAL ='real-';
     daak.NUMBER_REGEX = /^[0-9]+$/;
     daak.FLAOT_REGEX = /^[+-]?\d+(\.\d+)?$/;
@@ -200,6 +201,29 @@ var daak = (function ()
         // return image;
     }
 
+    var addId = function (elem) {
+        counts++;
+        var daakId = '.' + counts.toString();
+
+        elem.data('id', daakId);
+        elem.data('daak-object', true);
+        daak[daakId] = elem;
+
+        var tags = elem.querySelectorAll('*');
+        var ids = {};
+
+        for(var i = 0; i < tags.length; i++) {
+            var tag = daak(tags[i]);
+
+            var parentId = daak(tag.parentNode).data('id');
+
+            ids[parentId] = !ids[parentId] && ids[parentId] === undefined ? 0 : ids[parentId];
+            ids[parentId]++;
+
+            tag.data('id', parentId + '.' + ids[parentId].toString());
+        }
+    }
+
     daak.scanners = scanners;
     daak.scan = scan;
     daak.ajax = ajax;
@@ -210,7 +234,7 @@ var daak = (function ()
 
     daak.fn = daak.prototype = {
         //Define daak’s fn prototype, specially contains init method
-        init: function (selector, context) {
+        init: function (selector, daakObject) {
             var elem;
             if (!selector) {
                 return this;
@@ -239,6 +263,9 @@ var daak = (function ()
             }
 
             addFn(elem);
+            if (daakObject === true) {
+                addId(elem);
+            }
 
             return elem;
         },
@@ -284,6 +311,12 @@ var daak = (function ()
         },
 
         remove : function () {
+            var daakObject = this.data('daak-object');
+            if ((daakObject != undefined) && (daakObject === true)) {
+                var daakId = this.data('id');
+                delete daak[daakId];
+            }
+
             this.parent().removeChild(this);
         },
 

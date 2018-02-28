@@ -28,7 +28,17 @@
             '        </table>\n' +
             '    </div>'
 
-        var daakCrop = daak(crop);
+        var daakCrop = daak(crop, true);
+
+        daakCrop.handleTop = daakCrop.find('.daak-handle-top')[0],
+        daakCrop.handleBottom = daakCrop.find('.daak-handle-bottom')[0],
+        daakCrop.handleLeftTop = daakCrop.find('.daak-handle-left-top')[0],
+        daakCrop.handleLeft = daakCrop.find('.daak-handle-left')[0],
+        daakCrop.handleLeftBottom = daakCrop.find('.daak-handle-left-bottom')[0],
+        daakCrop.handleRightTop = daakCrop.find('.daak-handle-right-top')[0],
+        daakCrop.handleRight = daakCrop.find('.daak-handle-right')[0],
+        daakCrop.handleRightBottom = daakCrop.find('.daak-handle-right-bottom')[0];
+
         parent.appendChild(daakCrop);
 
         daakCrop.left(x);
@@ -40,49 +50,40 @@
     }
 
     daak.fn.aliveCrop = function () {
-        this.data('bottomMouseDown', false);
-        this.data('topMouseDown', false);
-        this.data('rightMouseDown', false);
-        this.data('leftMouseDown', false);
-        this.data('rightBottomMouseDown', false);
-        this.data('leftBottomMouseDown', false);
-        this.data('leftTopMouseDown', false);
-        this.data('rightTopMouseDown', false);
-        this.data('mouseDown', false);
+        this.bottomMouseDown = false;
+        this.topMouseDown = false;
+        this.rightMouseDown = false;
+        this.leftMouseDown = false;
+        this.rightBottomMouseDown = false;
+        this.leftBottomMouseDown = false;
+        this.leftTopMouseDown = false;
+        this.rightTopMouseDown = false;
+        this.mouseDown = false;
 
-        var
-            handleTop = this.find('.daak-handle-top')[0],
-            handleBottom = this.find('.daak-handle-bottom')[0],
-            handleLeftTop = this.find('.daak-handle-left-top')[0],
-            handleLeft = this.find('.daak-handle-left')[0],
-            handleLeftBottom = this.find('.daak-handle-left-bottom')[0],
-            handleRightTop = this.find('.daak-handle-right-top')[0],
-            handleRight = this.find('.daak-handle-right')[0],
-            handleRightBottom = this.find('.daak-handle-right-bottom')[0];
 
         this.addEventListener('mousedown', function (e) {
             e.stopPropagation();
-            this.data('mouseDown', true);
-            this.data('diffX', e.clientX - this.left());
-            this.data('diffY', e.clientY - this.top());
+            this.mouseDown = true;
+            this.diffX = e.clientX - this.left();
+            this.diffY = e.clientY - this.top();
         })
 
         var topBottomEvent = function (self, e) {
             e.stopPropagation();
 
             var crop = self.parent();
-            crop.data('screenOldY', e.clientY);
-            crop.data('oldCropHeight', crop.height());
-            crop.data('oldCropTop', crop.top());
+            crop.screenOldY = e.clientY;
+            crop.oldCropHeight = crop.height();
+            crop.oldCropTop = crop.top();
         }
 
-        handleTop.addEventListener('mousedown', function (e) {
-            this.parent().data('topMouseDown', true);//crop
+        this.handleTop.addEventListener('mousedown', function (e) {
+            this.parent().topMouseDown = true;//crop
             topBottomEvent(this, e);
         })
 
-        handleBottom.addEventListener('mousedown', function (e) {
-            this.parent().data('bottomMouseDown', true);//crop
+        this.handleBottom.addEventListener('mousedown', function (e) {
+            this.parent().bottomMouseDown = true;//crop
             topBottomEvent(this, e);
         })
 
@@ -90,18 +91,18 @@
             e.stopPropagation();
 
             var crop = self.parent();
-            crop.data('screenOldX', e.clientX);
-            crop.data('oldCropWidth', crop.width());
-            crop.data('oldCropLeft', crop.left());
+            crop.screenOldX = e.clientX;
+            crop.oldCropWidth = crop.width();
+            crop.oldCropLeft = crop.left();
         }
 
-        handleLeft.addEventListener('mousedown', function (e) {
-            this.parent().data('leftMouseDown', true);//crop
+        this.handleLeft.addEventListener('mousedown', function (e) {
+            this.parent().leftMouseDown = true;//crop
             leftRightEvent(this, e);
         })
 
-        handleRight.addEventListener('mousedown', function (e) {
-            this.parent().data('rightMouseDown', true);//crop
+        this.handleRight.addEventListener('mousedown', function (e) {
+            this.parent().rightMouseDown = true;//crop
             leftRightEvent(this, e);
         })
 
@@ -110,23 +111,23 @@
             topBottomEvent(self, e);
         }
 
-        handleRightBottom.addEventListener('mousedown', function (e) {
-            this.parent().data('rightBottomMouseDown', true);//crop
+        this.handleRightBottom.addEventListener('mousedown', function (e) {
+            this.parent().rightBottomMouseDown = true;//crop
             leftRightTopBottomEvent(this, e);
         })
 
-        handleLeftBottom.addEventListener('mousedown', function (e) {
-            this.parent().data('leftBottomMouseDown', true);//crop
+        this.handleLeftBottom.addEventListener('mousedown', function (e) {
+            this.parent().leftBottomMouseDown = true;//crop
             leftRightTopBottomEvent(this, e);
         })
 
-        handleLeftTop.addEventListener('mousedown', function (e) {
-            this.parent().data('leftTopMouseDown', true);//crop
+        this.handleLeftTop.addEventListener('mousedown', function (e) {
+            this.parent().leftTopMouseDown = true;//crop
             leftRightTopBottomEvent(this, e);
         })
 
-        handleRightTop.addEventListener('mousedown', function (e) {
-            this.parent().data('rightTopMouseDown', true);//crop
+        this.handleRightTop.addEventListener('mousedown', function (e) {
+            this.parent().rightTopMouseDown = true;//crop
             leftRightTopBottomEvent(this, e);
         })
 
@@ -196,73 +197,54 @@
                 x = e.clientX,
                 y = e.clientY,
 
-                crop = this.find('.daak-crop')[0];
+                crop = this.crop;
              if ( crop ) {
                  var
-                     screenOldY = crop.data('screenOldY'),
-                     screenOldX = crop.data('screenOldX'),
-                     oldCropHeight = crop.data('oldCropHeight'),
-                     oldCropWidth = crop.data('oldCropWidth'),
-                     oldCropTop = crop.data('oldCropTop'),
-                     oldCropLeft = crop.data('oldCropLeft'),
+                     screenOldY = crop.screenOldY,
+                     screenOldX = crop.screenOldX,
+                     oldCropHeight = crop.oldCropHeight,
+                     oldCropWidth = crop.oldCropWidth,
+                     oldCropTop = crop.oldCropTop,
+                     oldCropLeft = crop.oldCropLeft;
 
-                     //----------------------
-                     bottomMouseDown = crop.data('bottomMouseDown'),
-                     //----------------------
-                     topMouseDown = crop.data('topMouseDown'),
-                     //----------------------
-                     rightMouseDown = crop.data('rightMouseDown'),
-                     //----------------------
-                     leftMouseDown = crop.data('leftMouseDown'),
-                     //----------------------
-                     rightBottomMouseDown = crop.data('rightBottomMouseDown'),
-                     //----------------------
-                     leftBottomMouseDown = crop.data('leftBottomMouseDown'),
-                     //----------------------
-                     leftTopMouseDown = crop.data('leftTopMouseDown'),
-                     //----------------------
-                     rightTopMouseDown = crop.data('rightTopMouseDown'),
-                     //----------------------
-                     mouseDown = crop.data('mouseDown');
-
-                 if (mouseDown) {
-                     crop.left(x - crop.data('diffX'));
-                     crop.top(y - crop.data('diffY'));
+                 if (crop.mouseDown) {
+                     crop.left(x - crop.diffX);
+                     crop.top(y - crop.diffY);
 
                      showSelection(crop);
 
                      return false;
                  }
 
-                 if (bottomMouseDown) {
+                 if (crop.bottomMouseDown) {
                      return bottomMouseDownExecution(crop, y, screenOldY, oldCropHeight);
                  }
 
-                 if (topMouseDown) {
+                 if (crop.topMouseDown) {
                      return topMouseDownExecution(crop, y, screenOldY, oldCropHeight, oldCropTop);
                  }
 
-                 if (rightMouseDown) {
+                 if (crop.rightMouseDown) {
                      return rightMouseDownExecution(crop, x, screenOldX, oldCropWidth);
                  }
 
-                 if (leftMouseDown) {
+                 if (crop.leftMouseDown) {
                      return leftMouseDownExecution(crop, x, screenOldX, oldCropWidth, oldCropLeft);
                  }
 
-                 if (rightBottomMouseDown) {
+                 if (crop.rightBottomMouseDown) {
                      return (rightMouseDownExecution(crop, x, screenOldX, oldCropWidth) || bottomMouseDownExecution(crop, y, screenOldY, oldCropHeight));
                  }
 
-                 if (leftBottomMouseDown) {
+                 if (crop.leftBottomMouseDown) {
                      return (leftMouseDownExecution(crop, x, screenOldX, oldCropWidth, oldCropLeft) || bottomMouseDownExecution(crop, y, screenOldY, oldCropHeight));
                  }
 
-                 if (leftTopMouseDown) {
+                 if (crop.leftTopMouseDown) {
                      return (topMouseDownExecution(crop, y, screenOldY, oldCropHeight, oldCropTop) || leftMouseDownExecution(crop, x, screenOldX, oldCropWidth, oldCropLeft));
                  }
 
-                 if (rightTopMouseDown) {
+                 if (crop.rightTopMouseDown) {
                      return (topMouseDownExecution(crop, y, screenOldY, oldCropHeight, oldCropTop) || rightMouseDownExecution(crop, x, screenOldX, oldCropWidth));
                  }
              }
@@ -270,19 +252,19 @@
 
         this.parent().addEventListener('mouseup', function (e) {
             e.stopPropagation();
-            var crop = this.find('.daak-crop')[0];
+            var crop = this.crop;
 
             if ( crop ) {
-                crop.data('bottomMouseDown', false);
-                crop.data('topMouseDown', false);
-                crop.data('rightMouseDown', false);
-                crop.data('leftMouseDown', false);
-                crop.data('rightBottomMouseDown', false);
-                crop.data('leftBottomMouseDown', false);
-                crop.data('leftTopMouseDown', false);
-                crop.data('rightTopMouseDown', false);
-                crop.data('mouseDown', false);
+                crop.bottomMouseDown = false;
+                crop.topMouseDown = false;
+                crop.rightMouseDown = false;
+                crop.leftMouseDown = false;
+                crop.rightBottomMouseDown = false;
+                crop.leftBottomMouseDown = false;
+                crop.leftTopMouseDown = false;
+                crop.rightTopMouseDown = false;
+                crop.mouseDown = false;
             }
-        })
+        });
     }
 }) (daak, window, document);
