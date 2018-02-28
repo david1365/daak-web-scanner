@@ -213,9 +213,14 @@ var daak = (function ()
         var ids = {};
 
         for(var i = 0; i < tags.length; i++) {
-            var tag = daak(tags[i]);
+            var
+                tag = daak(tags[i]),
+                parentId = daak(tag.parentNode).data('id'),
+                daakBind = tag.data('bind');
 
-            var parentId = daak(tag.parentNode).data('id');
+            if ( daakBind ) {
+                daak[daakId][daakBind] = tag;
+            }
 
             ids[parentId] = !ids[parentId] && ids[parentId] === undefined ? 0 : ids[parentId];
             ids[parentId]++;

@@ -43,20 +43,20 @@
 <!--</div>-->
 
 <div id="mg" class="daak-photo-manager no-select" daak-type="photo-manager">
-    <aside class="daak-content">
-        <canvas class="daak-showImage"></canvas>
+    <aside daak-bind="content" class="daak-content">
+        <canvas daak-bind="imageShow" class="daak-image-show"></canvas>
     </aside>
-    <aside class="daak-toolbox">
-        <section class="daak-window">
-            <canvas class="daak-selectionImage"></canvas>
+    <aside daak-bind="toolbox" class="daak-toolbox">
+        <section daak-bind="window" class="daak-window">
+            <canvas daak-bind="imageSelection" class="daak-image-selection"></canvas>
         </section>
 
-        <section class="daak-tools">
-            <button class="daak-icon-zoom-in"></button>
-            <button class="daak-icon-zoom-out"></button>
-            <button class="daak-icon-crop"></button>
-            <button class="daak-icon-rotate"></button>
-            <button class="daak-icon-send"></button>
+        <section daak-bind="tools" class="daak-tools">
+            <button daak-bind="zoomIn" class="daak-icon-zoom-in"></button>
+            <button daak-bind="zoomOut" class="daak-icon-zoom-out"></button>
+            <button daak-bind="crop" class="daak-icon-crop"></button>
+            <button daak-bind="rotate" class="daak-icon-rotate"></button>
+            <button daak-bind="send" class="daak-icon-send"></button>
         </section>
     </aside>
 </div>
@@ -71,7 +71,7 @@
 <script src="../../daak/frontend/js/daak-crop.js"></script>
 <script src="../../daak/frontend/js/daak-photo-manager.js"></script>
 <script>
-    var pm = daak('#mg');
+    var pm = daak('#mg', true);
     pm.alivePhotoManager();
     var img = document.getElementById('image');//daak('#image');
     pm.src("../../daak/frontend/images/cc_iStock-478639870_16x9.jpg");

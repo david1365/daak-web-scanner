@@ -1,14 +1,14 @@
 ;(function( daak, window, document, undefined ) {
     daak.createCrop = function (parent, x, y) {
         var crop = '<div daak-type="crop" class="daak-crop">\n' +
-            '        <div class="daak-handle-top"></div>\n' +
-            '        <div class="daak-handle-left-top"></div>\n' +
-            '        <div class="daak-handle-left"></div>\n' +
-            '        <div class="daak-handle-left-bottom"></div>\n' +
-            '        <div class="daak-handle-right-top"></div>\n' +
-            '        <div class="daak-handle-right"></div>\n' +
-            '        <div class="daak-handle-right-bottom"></div>\n' +
-            '        <div class="daak-handle-bottom"></div>\n' +
+            '        <div daak-bind="handleTop" class="daak-handle-top"></div>\n' +
+            '        <div daak-bind="handleLeftTop" class="daak-handle-left-top"></div>\n' +
+            '        <div daak-bind="handleLeft" class="daak-handle-left"></div>\n' +
+            '        <div daak-bind="handleLeftBottom" class="daak-handle-left-bottom"></div>\n' +
+            '        <div daak-bind="handleRightTop" class="daak-handle-right-top"></div>\n' +
+            '        <div daak-bind="handleRight" class="daak-handle-right"></div>\n' +
+            '        <div daak-bind="handleRightBottom" class="daak-handle-right-bottom"></div>\n' +
+            '        <div daak-bind="handleBottom" class="daak-handle-bottom"></div>\n' +
             '        <table>\n' +
             '            <tr>\n' +
             '                <td></td>\n' +
@@ -29,15 +29,6 @@
             '    </div>'
 
         var daakCrop = daak(crop, true);
-
-        daakCrop.handleTop = daakCrop.find('.daak-handle-top')[0],
-        daakCrop.handleBottom = daakCrop.find('.daak-handle-bottom')[0],
-        daakCrop.handleLeftTop = daakCrop.find('.daak-handle-left-top')[0],
-        daakCrop.handleLeft = daakCrop.find('.daak-handle-left')[0],
-        daakCrop.handleLeftBottom = daakCrop.find('.daak-handle-left-bottom')[0],
-        daakCrop.handleRightTop = daakCrop.find('.daak-handle-right-top')[0],
-        daakCrop.handleRight = daakCrop.find('.daak-handle-right')[0],
-        daakCrop.handleRightBottom = daakCrop.find('.daak-handle-right-bottom')[0];
 
         parent.appendChild(daakCrop);
 

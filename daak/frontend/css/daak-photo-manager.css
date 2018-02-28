@@ -7,7 +7,7 @@
     background-image: url("../images/daakchessboard.jpg");
 }
 
-.daak-selectionImage {
+.daak-image-selection {
     padding: 0 !important;
     background-image: url("../images/daakchessboard.jpg");
 }
@@ -60,11 +60,11 @@
 
 button:focus {outline:0;}
 
-.daak-showImage {
+.daak-image-show {
     /*border: 2px red solid;*/
 }
 
-.daak-selectionImage {
+.daak-image-selection {
     border: 1px rgb(128, 120, 120) solid;
     max-height: 100%;
     max-width: 100%;

@@ -1,10 +1,11 @@
 ;(function( daak, window, document, undefined ) {
     daak.fn.src = function (value) {
-        var canvas  = this.find('.daak-showImage')[0],
-            context = canvas.getContext('2d'),
+        var self = this,
+            imageShow = this.imageShow,
+            context = imageShow.getContext('2d'),
             img = new Image();
 
-        this.data('src', value);
+        this.src = value;
 
         img.src = value;
         img.onload = function (e) {
@@ -14,10 +15,11 @@
 
             canvas.width = naturalWidth;
             canvas.height = naturalHeight;
-            canvas.parent().data('naturalWidth', naturalWidth);
-            canvas.parent().data('naturalHeight', naturalHeight);
-            canvas.parent().data('degree', 0);
-            canvas.parent().data('zoom-count', 0);
+
+            self.naturalWidth = naturalWidth;
+            self.naturalHeight = naturalHeight;
+            self.degree = 0;
+            self.zoomCount = 0;
 
             context.drawImage(this, 0, 0);
             context.drawImage(this, 0, 0, this.width, this.height);
@@ -25,7 +27,7 @@
     };
 
     daak.fn.zoom = function(zoom, type) {
-        var canvas  = this.getElementsByClassName('daak-showImage')[0];
+        var canvas  = this.getElementsByClassName('daak-image-show')[0];
 
         if (canvas) {
             var
@@ -114,7 +116,7 @@
 
     daak.rotate = function (degree) {
         var
-            canvas  = this.getElementsByClassName('daak-showImage')[0],
+            canvas  = this.getElementsByClassName('daak-image-show')[0],
             src = this.data('src'),
             img = new Image();
 
@@ -182,8 +184,8 @@
             crop.visible(false);
 
             this.mouseDown = true;
-            this.data('oldX', x);
-            this.data('oldY', y);
+            this.oldX = x;
+            this.oldY = y;
         });
 
         this.addEventListener('mousemove', function (e) {
@@ -191,8 +193,8 @@
                 rect = this.getBoundingClientRect(),
                 x = e.clientX,
                 y = e.clientY ,
-                oldX = this.data('oldX'),
-                oldY = this.data('oldY'),
+                oldX = this.oldX,
+                oldY = this.oldY,
                 mouseDown = this.mouseDown;
 
             if( mouseDown ){
@@ -200,12 +202,12 @@
                     crop = this.crop;
 
                 crop.visible(true);
-                crop.data('screenOldX', oldX);
-                crop.data('screenOldY', oldY);
-                crop.data('oldCropLeft', oldX);
-                crop.data('oldCropTop', oldY);
-                crop.data('oldCropHeight', 5);
-                crop.data('oldCropWidth', 5);
+                crop.screenOldX = oldX;
+                crop.screenOldY = oldY;
+                crop.oldCropLeft = oldX;
+                crop.oldCropTop = oldY;
+                crop.oldCropHeight = 5;
+                crop.oldCropWidth = 5;
 
                 if ((oldX < x) && (oldY < y)) {
                     crop.rightBottomMouseDown = true;
