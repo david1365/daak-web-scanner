@@ -28,6 +28,7 @@
             '        </table>\n' +
             '    </div>',
 
+
         body: function (parent, x, y) {
                 parent.appendChild(this);
 
