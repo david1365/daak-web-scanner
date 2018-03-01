@@ -141,17 +141,17 @@
 
                     changeCoordinates = function () {
                         var
-                            naturalWidth = owner.naturalWidth,
-                            naturalHeight = owner.naturalHeight;
+                            realWidth = owner.realWidth,
+                            realHeight = owner.realHeight;
 
                         if ((degree / 90) % 2 !== 0) {// change width and height
-                            var tmp = naturalWidth;
-                            naturalWidth = naturalHeight;
-                            naturalHeight = tmp;
+                                var tmp = realWidth;
+                                realWidth = realHeight;
+                                realHeight = tmp;
                         }
 
-                        self.width = naturalWidth;
-                        self.height = naturalHeight;
+                        self.width = realWidth;
+                        self.height = realHeight;
                     };
 
                 switch (degree) {
@@ -209,12 +209,6 @@
                     imageShow.width = width;
                     imageShow.height = height;
 
-                    // var img = new Image();
-                    // img.src = this.owner._src;
-                    //
-                    // img.onload = function (e) {
-                    //     context.drawImage(this, 0, 0, width, height);
-                    // }
                     this.owner.realWidth = width;
                     this.owner.realHeight = height;
 
