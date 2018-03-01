@@ -145,9 +145,11 @@
                             realHeight = owner.realHeight;
 
                         if ((degree / 90) % 2 !== 0) {// change width and height
+                            if (realWidth > realHeight) {
                                 var tmp = realWidth;
                                 realWidth = realHeight;
                                 realHeight = tmp;
+                            }
                         }
 
                         self.width = realWidth;
