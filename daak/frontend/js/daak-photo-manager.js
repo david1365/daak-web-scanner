@@ -213,7 +213,6 @@
                     this.owner.realHeight = height;
 
                     this.rotate(this.owner.degree);
-                    this.show(width, height);
                 }
             };
 
