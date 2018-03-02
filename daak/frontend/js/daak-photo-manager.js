@@ -52,9 +52,13 @@
 
                 var
                     degree = this.owner.degree,
-                    degree = degree == 270 ? 0 : degree + 90;
+                    degree = degree == 360 ? 0 : degree + 1,
+                    imageShow = this.owner.imageShow;
 
-                this.owner.imageShow.rotate(degree);
+                this.owner.degree = degree;
+
+                imageShow.rotate(degree);
+                // imageShow.show();
             })
 
             this.addEventListener('mousedown', function (e) {
@@ -132,65 +136,65 @@
             })
 
 
-            this.imageShow.rotate = function (degree) {
+            this.imageShow.rotate = function (degree) {document.title = degree;
                 var
-                    x, y,
-                    self = this,
-                    owner = this.owner,
+                    xp, yp,
                     context = this.getContext('2d'),
+                    realWidth = this.owner.realWidth,
+                    realHeight = this.owner.realHeight,
+                    degree = degree * Math.PI / 180,
+                    r = this.owner.r = 500;//Math.sqrt(Math.pow(realHeight, 2) + Math.pow(realWidth, 2));
 
-                    changeCoordinates = function () {
-                        var
-                            realWidth = owner.realWidth,
-                            realHeight = owner.realHeight;
+                xp = (r * Math.cos(degree));
+                yp =  (r * Math.sin(degree));
 
-                        if ((degree / 90) % 2 !== 0) {// change width and height
-                            if (realWidth > realHeight) {
-                                var tmp = realWidth;
-                                realWidth = realHeight;
-                                realHeight = tmp;
-                            }
-                        }
+                var
+                    x = r,
+                    y = r;
 
-                        self.width = realWidth;
-                        self.height = realHeight;
-                    };
+                this.height = r;
+                this.width = r;
 
-                switch (degree) {
-                    case 0:
-                        owner.degree = 0;
-                        changeCoordinates();
-                        break;
-                    case 90:
-                        owner.degree = 90;
+                this.clearAll();
 
-                        x = 0;
-                        y = -this.height;
 
-                        changeCoordinates();
-                        break;
+                context.beginPath();
+                context.arc(xp, yp, 5, 0, 2 * Math.PI);
+                context.fillStyle = 'green';
+                context.fill();
+                context.stroke();
 
-                    case 180:
-                        owner.degree = 180;
-                        changeCoordinates();
+                context.beginPath();
+                context.arc(r, 0, 5, 0, 2 * Math.PI);
+                context.fillStyle = 'red';
+                context.fill();
+                context.stroke();
 
-                        x = -this.width;
-                        y = -this.height;
-                        break;
+                context.beginPath();
+                context.arc(0, r, 5, 0, 2 * Math.PI);
+                context.fillStyle = 'red';
+                context.fill();
+                context.stroke();
 
-                    case 270:
-                        owner.degree = 270;
-                        changeCoordinates();
+                //
+                // x = (r / 2);
+                // y = (r / 2);
+                context.translate(realWidth / 2,  realHeight / 2);
+                context.rotate(degree);
+                // x = this.width / 2;
+                // y = this.height / 2;
+                context.translate(-realHeight / 2 , -realHeight / 2);
 
-                        x = -this.height;
-                        y = 0;
-                        break;
-                }
+                this.show(0, 0);
 
-                context.rotate(degree * Math.PI / 180);
-                context.translate(x, y);
+            }
 
-                this.show(this.owner.realWidth, this.owner.realHeight);
+            this.imageShow.clearAll = function () {
+               var context = this.getContext('2d');
+
+                context.setTransform(1, 0, 0, 1, 0, 0);
+                context.clearRect(0, 0, this.width, this.height);
+                context.restore();
             }
 
             this.imageShow.zoom = function (zoom, type) {
@@ -200,13 +204,7 @@
                     var
                         width = type === 'in' ? imageShow.width * zoom : imageShow.width / zoom,
                         height = type === 'in' ? imageShow.height * zoom : imageShow.height / zoom,
-                        context = imageShow.getContext('2d'),
-                        owner = imageShow.owner,
-                        zoomCount = owner.zoomCount,
                         step = type === 'in' ? 1 : -1;
-
-                    zoomCount = zoomCount + step;
-                    owner.zoomCount = zoomCount;
 
                     imageShow.width = width;
                     imageShow.height = height;
@@ -214,14 +212,16 @@
                     this.owner.realWidth = width;
                     this.owner.realHeight = height;
 
-                    this.rotate(this.owner.degree);
+                    this.show();
                 }
             };
 
-            this.imageShow.show = function (width, height) {
+            this.imageShow.show = function (x, y) {
                 var
                     imageShow = this,
-                    img = new Image();
+                    img = new Image(),
+                    width = this.owner.realWidth,
+                    height = this.owner.realHeight;
 
                 img.src = this.owner._src;
 
@@ -229,7 +229,7 @@
                     var context = imageShow.getContext('2d');
 
                     img.onload = function (e) {
-                        context.drawImage(this, 0, 0, width, height);
+                        context.drawImage(this, x, y, width, height);
                     }
                 }
             }
