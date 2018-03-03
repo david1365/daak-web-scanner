@@ -147,11 +147,12 @@
                     ciy = (realHeight / 2),
                     divided = cix > ciy ? cix : ciy,
                     basicGrade = Math.degrees(Math.asin(divided / cr)), //sin(a)
+                    otherDegree = 90 - basicGrade,
                     radian = Math.radians(degree),
                     rightTopRadian = Math.radians(degree - basicGrade),
                     rightBottomRadian = Math.radians(degree + basicGrade),
-                    leftBottomRadian = Math.radians(degree + (3 * basicGrade)),
-                    leftTopRadian = Math.radians(degree + (5 * basicGrade)),
+                    leftBottomRadian = Math.radians(degree + ((2 * basicGrade) + otherDegree)),
+                    leftTopRadian = Math.radians(degree + ((2 * basicGrade) + (3 * otherDegree))),
 
                     xRightTop = (cr * Math.cos(rightTopRadian)),
                     yRightTop = (cr * Math.sin(rightTopRadian)),
@@ -164,7 +165,7 @@
 
                     xLeftTop = (cr * Math.cos(leftTopRadian)),
                     yLeftTop = (cr * Math.sin(leftTopRadian));
-// alert(basicGrade)
+// alert(basicGrade + ',' + otherDegree + ',' + ((2 * basicGrade) + (3 * otherDegree)))
 
                 var
                     xyArr = [];
