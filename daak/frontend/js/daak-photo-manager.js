@@ -31,7 +31,7 @@
                     context.drawImage(this, 0, 0, this.width, this.height);
                 }
 
-            }
+            };
 
             this.tools.addEventListener('mousedown', function (e) {
                 e.stopPropagation();
@@ -59,7 +59,7 @@
 
                 imageShow.rotate(degree);
                 // imageShow.show();
-            })
+            });
 
             this.addEventListener('mousedown', function (e) {
                 var
@@ -133,25 +133,25 @@
 
             this.addEventListener('mouseup', function (e) {
                 this.mouseDown = false;
-            })
-
+            });
 
             this.imageShow.rotate = function (degree) {
                 var
                     context = this.getContext('2d'),
                     realWidth = this.owner.realWidth,
                     realHeight = this.owner.realHeight,
-                    radian = degree * Math.PI / 180,
-                    rightTopRadian = (degree - 45) * Math.PI / 180,
-                    rightBottomRadian = (degree + 45) * Math.PI / 180,
-                    leftBottomRadian = (degree + 135) * Math.PI / 180,
-                    leftTopRadian = (degree + 225) * Math.PI / 180,
-                    r = this.owner.r = Math.sqrt(Math.pow(realHeight, 2) + Math.pow(realWidth, 2));
+                    r = this.owner.r = Math.sqrt(Math.pow(realHeight, 2) + Math.pow(realWidth, 2)),
 
-                var
                     cr = r / 2,
                     cix = (realWidth / 2),
                     ciy = (realHeight / 2),
+                    divided = cix > ciy ? cix : ciy,
+                    basicGrade = Math.degrees(Math.asin(divided / cr)), //sin(a)
+                    radian = Math.radians(degree),
+                    rightTopRadian = Math.radians(degree - basicGrade),
+                    rightBottomRadian = Math.radians(degree + basicGrade),
+                    leftBottomRadian = Math.radians(degree + (3 * basicGrade)),
+                    leftTopRadian = Math.radians(degree + (5 * basicGrade)),
 
                     xRightTop = (cr * Math.cos(rightTopRadian)),
                     yRightTop = (cr * Math.sin(rightTopRadian)),
@@ -164,7 +164,7 @@
 
                     xLeftTop = (cr * Math.cos(leftTopRadian)),
                     yLeftTop = (cr * Math.sin(leftTopRadian));
-
+// alert(basicGrade)
 
                 var
                     xyArr = [];
@@ -196,12 +196,15 @@
                     finalWidth = (realWidth + newX ),
                     finalHeight = (realHeight + newY);
 
-                this.height = finalWidth;
-                this.width = finalHeight;
+                // this.height = finalWidth;
+                // this.width = finalHeight;
+
+                this.height = r * 3;
+                this.width = r * 3;
 
                 this.clearAll();
 
-                // context.translate( cix,  ciy);
+                context.translate( cix,  ciy);
                 context.beginPath();
                 context.rect(0, 0, finalWidth, finalHeight);
                 context.stroke();
@@ -249,9 +252,9 @@
                 //
                 // context.translate(-newY, -newY);
 
-                this.show(0, 0);
+                // this.show(0, 0);
 
-            }
+            };
 
             this.imageShow.clearAll = function () {
                var context = this.getContext('2d');
@@ -259,7 +262,7 @@
                 context.setTransform(1, 0, 0, 1, 0, 0);
                 context.clearRect(0, 0, this.width, this.height);
                 context.restore();
-            }
+            };
 
             this.imageShow.zoom = function (zoom, type) {
                 var imageShow = this;
@@ -296,7 +299,7 @@
                         context.drawImage(this, x, y, width, height);
                     }
                 }
-            }
+            };
 
 
             this.src(src);
