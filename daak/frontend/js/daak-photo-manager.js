@@ -136,54 +136,111 @@
             })
 
 
-            this.imageShow.rotate = function (degree) {document.title = degree;
+            this.imageShow.rotate = function (degree) {
                 var
-                    xp, yp,
                     context = this.getContext('2d'),
                     realWidth = this.owner.realWidth,
                     realHeight = this.owner.realHeight,
-                    degree = degree * Math.PI / 180,
-                    r = this.owner.r = 500;//Math.sqrt(Math.pow(realHeight, 2) + Math.pow(realWidth, 2));
-
-                xp = (r * Math.cos(degree));
-                yp =  (r * Math.sin(degree));
+                    radian = degree * Math.PI / 180,
+                    rightTopRadian = (degree - 45) * Math.PI / 180,
+                    rightBottomRadian = (degree + 45) * Math.PI / 180,
+                    leftBottomRadian = (degree + 135) * Math.PI / 180,
+                    leftTopRadian = (degree + 225) * Math.PI / 180,
+                    r = this.owner.r = Math.sqrt(Math.pow(realHeight, 2) + Math.pow(realWidth, 2));
 
                 var
-                    x = r,
-                    y = r;
+                    cr = r / 2,
+                    cix = (realWidth / 2),
+                    ciy = (realHeight / 2),
 
-                this.height = r;
-                this.width = r;
+                    xRightTop = (cr * Math.cos(rightTopRadian)),
+                    yRightTop = (cr * Math.sin(rightTopRadian)),
+
+                    xRightBottom = (cr * Math.cos(rightBottomRadian)),
+                    yRightBottom = (cr * Math.sin(rightBottomRadian)),
+
+                    xLeftBottom = (cr * Math.cos(leftBottomRadian)),
+                    yLeftBottom = (cr * Math.sin(leftBottomRadian)),
+
+                    xLeftTop = (cr * Math.cos(leftTopRadian)),
+                    yLeftTop = (cr * Math.sin(leftTopRadian));
+
+                this.height = r * 3;
+                this.width = r * 3;
 
                 this.clearAll();
 
+                context.translate(realWidth / 2,  realHeight / 2);
+                context.beginPath();
+                context.rect(0, 0, realWidth, realHeight);
+                context.stroke();
+
+                context.translate(realWidth / 2,  realHeight / 2);
 
                 context.beginPath();
-                context.arc(xp, yp, 5, 0, 2 * Math.PI);
+                context.arc(xRightTop, yRightTop, 5, 0, 2 * Math.PI);
+                context.fillStyle = 'orange';
+                context.fill();
+                context.stroke();
+
+                context.beginPath();
+                context.arc(xRightBottom, yRightBottom, 5, 0, 2 * Math.PI);
+                context.fillStyle = 'black';
+                context.fill();
+                context.stroke();
+
+                context.beginPath();
+                context.arc(xLeftBottom, yLeftBottom, 5, 0, 2 * Math.PI);
                 context.fillStyle = 'green';
                 context.fill();
                 context.stroke();
 
                 context.beginPath();
-                context.arc(r, 0, 5, 0, 2 * Math.PI);
+                context.arc(xLeftTop, yLeftTop, 5, 0, 2 * Math.PI);
                 context.fillStyle = 'red';
                 context.fill();
                 context.stroke();
+
+                var
+                    xyArr = [];
+                    xyArr[0] = yLeftTopP = yLeftTop + ciy,
+                    xyArr[2] = yRightTopP = yRightTop + ciy,
+
+                    xyArr[1] = xLeftTopP = xLeftTop + cix,
+                    xyArr[3] = xRightTopP = xRightTop + cix,
+
+                    xyArr[4] = yLeftBottomP = yLeftBottom + ciy,
+                    xyArr[6] = yRightBottomP = yRightBottom + ciy,
+
+                    xyArr[5] = xLeftBottomP = xLeftBottom + cix,
+                    xyArr[7] = xRightBottomP = xRightBottom + cix;
+
+                var newX, newY;
+                for( var i = 0; i < xyArr.length; i++){
+                    if (xyArr[i] < 0) {
+                        if (i % 2 === 0 ){
+                            newY = xyArr[i];
+                        }
+                        else {
+                            newX = xyArr[i];
+                        }
+                    }
+                }
+
+                daak('#inpt').value = newX + ',' + newY + ', deg=' + degree  + '-cos(' + degree + ')='  + Math.cos(radian) + ',sin(' + degree + ')='  + Math.sin(radian) ;
+
+                context.rotate(radian);
+                context.translate(-cix , -ciy);
 
                 context.beginPath();
-                context.arc(0, r, 5, 0, 2 * Math.PI);
-                context.fillStyle = 'red';
-                context.fill();
+                context.rect(0, 0, realWidth, realHeight);
                 context.stroke();
 
+                // var xp = newY * Math.cos(radian) – y sin β
                 //
-                // x = (r / 2);
-                // y = (r / 2);
-                context.translate(realWidth / 2,  realHeight / 2);
-                context.rotate(degree);
-                // x = this.width / 2;
-                // y = this.height / 2;
-                context.translate(-realHeight / 2 , -realHeight / 2);
+                // var yp = x sin β + y cos β
+                //
+                // context.translate(-newY, -newY);
 
                 this.show(0, 0);
 
