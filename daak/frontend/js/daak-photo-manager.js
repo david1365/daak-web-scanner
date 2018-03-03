@@ -151,8 +151,8 @@
                     radian = Math.radians(degree),
                     rightTopRadian = Math.radians(degree - basicGrade),
                     rightBottomRadian = Math.radians(degree + basicGrade),
-                    leftBottomRadian = Math.radians(degree + ((2 * basicGrade) + otherDegree)),
-                    leftTopRadian = Math.radians(degree + ((2 * basicGrade) + (3 * otherDegree))),
+                    leftBottomRadian = Math.radians(degree + basicGrade + (2 *otherDegree)),
+                    leftTopRadian = Math.radians(degree + ((3 * basicGrade) + (2 * otherDegree))),
 
                     xRightTop = (cr * Math.cos(rightTopRadian)),
                     yRightTop = (cr * Math.sin(rightTopRadian)),
@@ -235,10 +235,6 @@
                 context.fillStyle = 'red';
                 context.fill();
                 context.stroke();
-
-
-
-                daak('#inpt').value = newX + ',' + newY + ', deg=' + degree  + '-cos(' + degree + ')='  + Math.cos(radian) + ',sin(' + degree + ')='  + Math.sin(radian) ;
 
                 context.rotate(radian);
                 context.translate(-cix , -ciy);
