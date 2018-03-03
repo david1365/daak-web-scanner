@@ -165,17 +165,48 @@
                     xLeftTop = (cr * Math.cos(leftTopRadian)),
                     yLeftTop = (cr * Math.sin(leftTopRadian));
 
-                this.height = r * 3;
-                this.width = r * 3;
+
+                var
+                    xyArr = [];
+                    xyArr[0] = yLeftTopP = yLeftTop + ciy,
+                    xyArr[2] = yRightTopP = yRightTop + ciy,
+
+                    xyArr[1] = xLeftTopP = xLeftTop + cix,
+                    xyArr[3] = xRightTopP = xRightTop + cix,
+
+                    xyArr[4] = yLeftBottomP = yLeftBottom + ciy,
+                    xyArr[6] = yRightBottomP = yRightBottom + ciy,
+
+                    xyArr[5] = xLeftBottomP = xLeftBottom + cix,
+                    xyArr[7] = xRightBottomP = xRightBottom + cix;
+
+                var newX, newY;
+                for( var i = 0; i < xyArr.length; i++){
+                    if (xyArr[i] < 0) {
+                        if (i % 2 === 0 ){
+                            newY = Math.abs(xyArr[i]) * 2;
+                        }
+                        else {
+                            newX = Math.abs(xyArr[i]) * 2;
+                        }
+                    }
+                }
+
+                var
+                    finalWidth = (realWidth + newX ),
+                    finalHeight = (realHeight + newY);
+
+                this.height = finalWidth;
+                this.width = finalHeight;
 
                 this.clearAll();
 
-                context.translate(realWidth / 2,  realHeight / 2);
+                // context.translate( cix,  ciy);
                 context.beginPath();
-                context.rect(0, 0, realWidth, realHeight);
+                context.rect(0, 0, finalWidth, finalHeight);
                 context.stroke();
 
-                context.translate(realWidth / 2,  realHeight / 2);
+                context.translate(finalHeight / 2,  finalHeight / 2);
 
                 context.beginPath();
                 context.arc(xRightTop, yRightTop, 5, 0, 2 * Math.PI);
@@ -201,31 +232,7 @@
                 context.fill();
                 context.stroke();
 
-                var
-                    xyArr = [];
-                    xyArr[0] = yLeftTopP = yLeftTop + ciy,
-                    xyArr[2] = yRightTopP = yRightTop + ciy,
 
-                    xyArr[1] = xLeftTopP = xLeftTop + cix,
-                    xyArr[3] = xRightTopP = xRightTop + cix,
-
-                    xyArr[4] = yLeftBottomP = yLeftBottom + ciy,
-                    xyArr[6] = yRightBottomP = yRightBottom + ciy,
-
-                    xyArr[5] = xLeftBottomP = xLeftBottom + cix,
-                    xyArr[7] = xRightBottomP = xRightBottom + cix;
-
-                var newX, newY;
-                for( var i = 0; i < xyArr.length; i++){
-                    if (xyArr[i] < 0) {
-                        if (i % 2 === 0 ){
-                            newY = xyArr[i];
-                        }
-                        else {
-                            newX = xyArr[i];
-                        }
-                    }
-                }
 
                 daak('#inpt').value = newX + ',' + newY + ', deg=' + degree  + '-cos(' + degree + ')='  + Math.cos(radian) + ',sin(' + degree + ')='  + Math.sin(radian) ;
 
