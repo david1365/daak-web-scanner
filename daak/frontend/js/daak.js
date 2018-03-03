@@ -254,10 +254,13 @@ var daak = (function ()
                 elem[daakBind] = tag;
             }
 
+            tag.owner = elem;
+
             ids[parentId] = !ids[parentId] && ids[parentId] === undefined ? 0 : ids[parentId];
             ids[parentId]++;
 
-            tag.data('id', parentId + '.' + ids[parentId].toString());
+            var tagId = parentId + '.' + ids[parentId].toString();
+            tag.data('id', tagId);
         }
     }
 

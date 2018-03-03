@@ -61,7 +61,7 @@
 button:focus {outline:0;}
 
 .daak-image-show {
-    /*border: 2px red solid;*/
+    border: 2px red solid;
 }
 
 .daak-image-selection {
