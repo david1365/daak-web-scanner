@@ -181,6 +181,8 @@
                     xyArr[5] = xLeftBottomP = xLeftBottom + cix,
                     xyArr[7] = xRightBottomP = xRightBottom + cix;
 
+                    daak('#inpt').value = yLeftTopP;
+
                 var newX, newY;
                 for( var i = 0; i < xyArr.length; i++){
                     if (xyArr[i] < 0) {
@@ -210,7 +212,9 @@
                 context.rect(0, 0, finalWidth, finalHeight);
                 context.stroke();
 
-                context.translate(finalHeight / 2,  finalHeight / 2);
+                context.translate(finalWidth / 2,  finalHeight / 2);
+
+                // context.translate(realWidth / 2,  realHeight / 2);
 
                 context.beginPath();
                 context.arc(xRightTop, yRightTop, 5, 0, 2 * Math.PI);
