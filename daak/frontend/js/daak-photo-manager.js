@@ -3,6 +3,11 @@
         render: '~photo-manager',
 
         body: function (src) {
+            // daak.direction = {
+            //     VERTICAL: 'vertical',
+            //     HORIZONTAL: 'horizontal'
+            // };
+
             this.mouseDown = false;
             this.zoomNumber = 1.1;
 
@@ -146,6 +151,7 @@
                     cix = (realWidth / 2),
                     ciy = (realHeight / 2),
                     divided = cix > ciy ? ciy : ciy,
+                    // direction = cix > ciy ? daak.direction.HORIZONTAL : daak.direction.VERTICAL,
                     basicGrade = Math.degrees(Math.asin(divided / cr)), //sin(a)
                     otherDegree = 90 - basicGrade,
                     radian = Math.radians(degree),
@@ -165,7 +171,6 @@
 
                     xLeftTop = (cr * Math.cos(leftTopRadian)),
                     yLeftTop = (cr * Math.sin(leftTopRadian));
-// alert(basicGrade + ',' + otherDegree + ',' + ((2 * basicGrade) + (3 * otherDegree)))
 
                 var
                     xyArr = [];
@@ -181,11 +186,17 @@
                     xyArr[5] = xLeftBottomP = xLeftBottom + cix,
                     xyArr[7] = xRightBottomP = xRightBottom + cix;
 
-                var newX = 0, newY = 0;
-                for( var i = 0; i < xyArr.length; i++){
+                var
+                    newX = 0,
+                    newY = 0,
+                    countY = 0,
+                    countX = 0,
+                    minY = realHeight,
+                    minX = realWidth;
+                for( var i = 0; i < xyArr.length; i++) {
                     var tmp;
                     if (xyArr[i] < 0) {
-                        if (i % 2 === 0 ){
+                        if (i % 2 === 0 ){ //y
                             tmp = Math.abs(xyArr[i]) * 2;
                             newY = newY < tmp ? tmp : newY;
                         }
@@ -194,69 +205,81 @@
                             newX = newX < tmp ? tmp : newX;
                         }
                     }
+
+                    if (i % 2 === 0) {
+                        minY = xyArr[i] < minY ? xyArr[i] : minY;
+                        if (( xyArr[i] > 0) && (xyArr[0] < realHeight)){
+                            countY++; //if countY >= 4 means Height is big
+                        }
+                    }
+                    else {
+                        minX = xyArr[i] < minX ? xyArr[i] : minX;
+                        if (( xyArr[i] > 0) && (xyArr[0] < realWidth)){
+                            countX++; //if countX >= 4 means Width is big
+                        }
+                    }
                 }
 
-                daak('#inpt').value = xyArr[0] + ',' + xyArr[1] + ',' + xyArr[2] + ',' + xyArr[3] + ',' + xyArr[4] + ',' + xyArr[5] + ',' + xyArr[6] + ',' + xyArr[7];
+                // daak('#inpt').value = xyArr[0]  + ',' + xyArr[2] + ',' + xyArr[4] + ',' + xyArr[6]
+
                 var
                     finalWidth = (realWidth + newX),
                     finalHeight = (realHeight + newY);
 
-                // this.height = finalWidth;
-                // this.width = finalHeight;
+                if (countY >= 4) {
+                    finalHeight -= (minY * 2);
+                }
+                else if(countX >= 4) {
+                    finalWidth -= (minX * 2);
+                }
 
-                this.height = r * 3;
-                this.width = r * 3;
+                this.height = finalHeight;
+                this.width = finalWidth;
+
+                // this.height = r * 3;
+                // this.width = r * 3;
 
                 this.clearAll();
 
-                context.translate( cix,  ciy);
-                context.beginPath();
+                // context.translate(cix,  ciy);
+                // context.beginPath();
                 // context.rect(0, 0, realWidth, realHeight);
-                context.rect(0, 0, finalWidth, finalHeight);
-                context.stroke();
+                // context.rect(0, 0, finalWidth, finalHeight);
+                // context.stroke();
 
                 context.translate(finalWidth / 2,  finalHeight / 2);
                 // context.translate(realWidth / 2,  realHeight / 2);
 
-                context.beginPath();
-                context.arc(xRightTop, yRightTop, 5, 0, 2 * Math.PI);
-                context.fillStyle = 'orange';
-                context.fill();
-                context.stroke();
-
-                context.beginPath();
-                context.arc(xRightBottom, yRightBottom, 5, 0, 2 * Math.PI);
-                context.fillStyle = 'black';
-                context.fill();
-                context.stroke();
-
-                context.beginPath();
-                context.arc(xLeftBottom, yLeftBottom, 5, 0, 2 * Math.PI);
-                context.fillStyle = 'green';
-                context.fill();
-                context.stroke();
-
-                context.beginPath();
-                context.arc(xLeftTop, yLeftTop, 5, 0, 2 * Math.PI);
-                context.fillStyle = 'red';
-                context.fill();
-                context.stroke();
+                // context.beginPath();
+                // context.arc(xRightTop, yRightTop, 5, 0, 2 * Math.PI);
+                // context.fillStyle = 'orange';
+                // context.fill();
+                // context.stroke();
+                //
+                // context.beginPath();
+                // context.arc(xRightBottom, yRightBottom, 5, 0, 2 * Math.PI);
+                // context.fillStyle = 'black';
+                // context.fill();
+                // context.stroke();
+                //
+                // context.beginPath();
+                // context.arc(xLeftBottom, yLeftBottom, 5, 0, 2 * Math.PI);
+                // context.fillStyle = 'green';
+                // context.fill();
+                // context.stroke();
+                //
+                // context.beginPath();
+                // context.arc(xLeftTop, yLeftTop, 5, 0, 2 * Math.PI);
+                // context.fillStyle = 'red';
+                // context.fill();
+                // context.stroke();
 
                 context.rotate(radian);
                 context.translate(-cix , -ciy);
-
-                context.beginPath();
-                context.rect(0, 0, realWidth, realHeight);
-                context.stroke();
-
-                // var xp = newY * Math.cos(radian) – y sin β
                 //
-                // var yp = x sin β + y cos β
-                //
-                // context.translate(-newY, -newY);
-
-                // this.show(0, 0);
-
+                // context.beginPath();
+                // context.rect(0, 0, realWidth, realHeight);
+                // context.stroke();
             };
 
             this.imageShow.clearAll = function () {
@@ -281,12 +304,10 @@
 
                     this.owner.realWidth = width;
                     this.owner.realHeight = height;
-
-                    this.show();
                 }
             };
 
-            this.imageShow.show = function (x, y) {
+            this.imageShow.show = function () {
                 var
                     imageShow = this,
                     img = new Image(),
@@ -299,7 +320,7 @@
                     var context = imageShow.getContext('2d');
 
                     img.onload = function (e) {
-                        context.drawImage(this, x, y, width, height);
+                        context.drawImage(this, 0, 0, width, height);
                     }
                 }
             };
