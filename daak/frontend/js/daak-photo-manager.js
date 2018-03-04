@@ -145,7 +145,7 @@
                     cr = r / 2,
                     cix = (realWidth / 2),
                     ciy = (realHeight / 2),
-                    divided = cix > ciy ? cix : ciy,
+                    divided = cix > ciy ? ciy : ciy,
                     basicGrade = Math.degrees(Math.asin(divided / cr)), //sin(a)
                     otherDegree = 90 - basicGrade,
                     radian = Math.radians(degree),
@@ -183,29 +183,22 @@
 
                 var newX = 0, newY = 0;
                 for( var i = 0; i < xyArr.length; i++){
+                    var tmp;
                     if (xyArr[i] < 0) {
                         if (i % 2 === 0 ){
-                            newY = Math.abs(xyArr[i]) * 2;
+                            tmp = Math.abs(xyArr[i]) * 2;
+                            newY = newY < tmp ? tmp : newY;
                         }
                         else {
-                            var tmp = Math.abs(xyArr[i]) * 2;
+                            tmp = Math.abs(xyArr[i]) * 2;
                             newX = newX < tmp ? tmp : newX;
                         }
                     }
                 }
 
-                // daak('#inpt').value = xyArr[0] + ',' + xyArr[1] + ',' + xyArr[2] + ',' + xyArr[3] + ',' + xyArr[4] + ',' + xyArr[5] + ',' + xyArr[6] + ',' + xyArr[7];
-                //
-                // if (newX === undefined){
-                //     alert('newX');
-                // }
-                //
-                // if (newY === undefined){
-                //     alert('newY');
-                // }
-
+                daak('#inpt').value = xyArr[0] + ',' + xyArr[1] + ',' + xyArr[2] + ',' + xyArr[3] + ',' + xyArr[4] + ',' + xyArr[5] + ',' + xyArr[6] + ',' + xyArr[7];
                 var
-                    finalWidth = (realWidth + newX ),
+                    finalWidth = (realWidth + newX),
                     finalHeight = (realHeight + newY);
 
                 // this.height = finalWidth;
