@@ -181,19 +181,28 @@
                     xyArr[5] = xLeftBottomP = xLeftBottom + cix,
                     xyArr[7] = xRightBottomP = xRightBottom + cix;
 
-                    daak('#inpt').value = yLeftTopP;
-
-                var newX, newY;
+                var newX = 0, newY = 0;
                 for( var i = 0; i < xyArr.length; i++){
                     if (xyArr[i] < 0) {
                         if (i % 2 === 0 ){
                             newY = Math.abs(xyArr[i]) * 2;
                         }
                         else {
-                            newX = Math.abs(xyArr[i]) * 2;
+                            var tmp = Math.abs(xyArr[i]) * 2;
+                            newX = newX < tmp ? tmp : newX;
                         }
                     }
                 }
+
+                // daak('#inpt').value = xyArr[0] + ',' + xyArr[1] + ',' + xyArr[2] + ',' + xyArr[3] + ',' + xyArr[4] + ',' + xyArr[5] + ',' + xyArr[6] + ',' + xyArr[7];
+                //
+                // if (newX === undefined){
+                //     alert('newX');
+                // }
+                //
+                // if (newY === undefined){
+                //     alert('newY');
+                // }
 
                 var
                     finalWidth = (realWidth + newX ),
@@ -209,11 +218,11 @@
 
                 context.translate( cix,  ciy);
                 context.beginPath();
+                // context.rect(0, 0, realWidth, realHeight);
                 context.rect(0, 0, finalWidth, finalHeight);
                 context.stroke();
 
                 context.translate(finalWidth / 2,  finalHeight / 2);
-
                 // context.translate(realWidth / 2,  realHeight / 2);
 
                 context.beginPath();
