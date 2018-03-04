@@ -44,12 +44,20 @@
 
             this.zoomIn.addEventListener('click', function (e) {
                 e.stopPropagation();
-                this.owner.imageShow.zoom(this.owner.zoomNumber, 'in');
+                var imageShow = this.owner.imageShow;
+
+                imageShow.zoom(this.owner.zoomNumber, 'in');
+                imageShow.rotate(this.owner.degree);
+                imageShow.show();
             });
 
             this.zoomOut.addEventListener('click', function (e) {
                 e.stopPropagation();
-                this.owner.imageShow.zoom(this.owner.zoomNumber, 'out');
+                var imageShow = this.owner.imageShow;
+
+                imageShow.zoom(this.owner.zoomNumber, 'out');
+                imageShow.rotate(this.owner.degree);
+                imageShow.show();
             });
 
             this.rotate.addEventListener('click', function (e) {
@@ -63,7 +71,7 @@
                 this.owner.degree = degree;
 
                 imageShow.rotate(degree);
-                // imageShow.show();
+                imageShow.show();
             });
 
             this.addEventListener('mousedown', function (e) {
