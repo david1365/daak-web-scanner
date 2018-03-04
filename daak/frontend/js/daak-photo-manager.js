@@ -304,8 +304,8 @@
                 if (imageShow) {
                     var
                         width = type === 'in' ? imageShow.width * zoom : imageShow.width / zoom,
-                        height = type === 'in' ? imageShow.height * zoom : imageShow.height / zoom,
-                        step = type === 'in' ? 1 : -1;
+                        height = type === 'in' ? imageShow.height * zoom : imageShow.height / zoom;
+                        // step = type === 'in' ? 1 : -1;
 
                     imageShow.width = width;
                     imageShow.height = height;
