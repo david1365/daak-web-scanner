@@ -6,6 +6,7 @@ Math.radians = function(degrees) {
 Math.degrees = function(radians) {
     return radians * 180 / Math.PI;
 };
+
 if (!Element.prototype.matches) {
     Element.prototype.matches = Element.prototype.msMatchesSelector ||
         Element.prototype.webkitMatchesSelector;
@@ -78,7 +79,7 @@ var daak = (function ()
         return (!f && 'not a function') || (s && s[1] || 'anonymous');
     }
 
-    var data2url = function(data){
+    var data2url = function(data) {
         var dataUrl = '';
         for(var name in data){
             dataUrl += name + '=' + data[name] + '&'
@@ -222,7 +223,7 @@ var daak = (function ()
         elem.data('daak-object', true);
         daak[daakId] = elem;
 
-        addId(daak[daakId]);
+        traceChild(daak[daakId]);
     }
 
     var stringArguments = function (args) {
@@ -234,7 +235,7 @@ var daak = (function ()
         return sa.substr(0, sa.length - 1);
     }
 
-    var createDaakElem = function (daakElem, args) {
+    var createDaakElem = function (daakElem, args, prop, owner) {
         if (daakElem.render) {
            var
                elem = daak(daakElem.render),
@@ -242,13 +243,41 @@ var daak = (function ()
 
            initialDaak(elem);
            elem.body = daakElem.body;
+           elem.prop = prop;
+           elem.owner = owner;
            eval('elem.body(' + sa + ')');
 
            return elem;
         }
     }
 
-    var addId = function (elem) {
+    var findElem = function (tagName) {
+        for(var name in daak.elems){
+            if (name.toUpperCase() === tagName){
+                return daak.elems[name];
+            }
+        }
+    }
+
+    var placementDaak = function (elem) {
+        var daakElem = findElem(elem.tagName);
+
+        if (daakElem != undefined) {
+            daakElem = createDaakElem(daakElem, undefined, elem.attributes, elem.owner);
+            elem.replace(daakElem);
+
+            for(var index in daakElem.prop) {
+                var pName = daakElem.prop[index].name;
+                var pValue = daakElem.prop[index].value;
+
+                if (daakElem[pName] != undefined){
+                    daakElem[pName](pValue);
+                }
+            }
+        }
+    }
+
+    var traceChild = function (elem) {
         var tags = elem.querySelectorAll('*');
         var ids = {};
 
@@ -269,6 +298,8 @@ var daak = (function ()
 
             var tagId = parentId + '.' + ids[parentId].toString();
             tag.data('id', tagId);
+
+            placementDaak(tag);
         }
     }
 
@@ -464,6 +495,11 @@ var daak = (function ()
 
             var result = _scan(id);
             this.src = 'data:image/png;base64,' + result._data;
+        },
+
+        replace: function (elem) {
+            elem.owner = this.owner;
+            this.parentNode.replaceChild(elem, this);
         }
     }
 

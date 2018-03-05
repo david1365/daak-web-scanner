@@ -1,6 +1,28 @@
 ;(function( daak, window, document, undefined ) {
     daak.elems.PhotoManager = {
-        render: '~photo-manager',
+        render:
+            '<div class="daak-photo-manager no-select" daak-type="photo-manager">\n' +
+            '    <aside daak-bind="content" class="daak-content">\n' +
+            '        <canvas daak-bind="imageShow" class="daak-image-show"></canvas>\n' +
+            '    </aside>\n' +
+            '    <aside daak-bind="toolbox" class="daak-toolbox">\n' +
+            '        <section daak-bind="window" class="daak-window">\n' +
+            '            <canvas daak-bind="imageSelection" class="daak-image-selection"></canvas>\n' +
+            '        </section>\n' +
+            '\n' +
+            '        <section daak-bind="tools" class="daak-tools">\n' +
+            '            <button daak-bind="zoomIn" class="daak-icon-zoom-in"></button>\n' +
+            '            <button daak-bind="zoomOut" class="daak-icon-zoom-out"></button>\n' +
+            '            <button daak-bind="cropButton" class="daak-icon-crop"></button>\n' +
+            '            <button daak-bind="rotate" class="daak-icon-rotate"></button>\n' +
+            '            <button daak-bind="send" class="daak-icon-send"></button>\n' +
+            '        </section>\n' +
+
+            '       <section>' +
+            '         <zoomTool></zoomTool>' +
+            '       </section>' +
+            '    </aside>' +
+            '</div>',
 
         body: function (src) {
             // daak.direction = {

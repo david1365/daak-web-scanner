@@ -41,35 +41,20 @@
     <!--<div id='d'></div>-->
     <!--<img id='im1'>-->
 <!--</div>-->
-<input id='inpt' type="text" style="width: 1000px">
-<div class="daak-photo-manager no-select" daak-type="photo-manager">
-    <aside daak-bind="content" class="daak-content">
-        <canvas daak-bind="imageShow" class="daak-image-show"></canvas>
-    </aside>
-    <aside daak-bind="toolbox" class="daak-toolbox">
-        <section daak-bind="window" class="daak-window">
-            <canvas daak-bind="imageSelection" class="daak-image-selection"></canvas>
-        </section>
+<!--<input id='inpt' type="text" style="width: 1000px">-->
 
-        <section daak-bind="tools" class="daak-tools">
-            <button daak-bind="zoomIn" class="daak-icon-zoom-in"></button>
-            <button daak-bind="zoomOut" class="daak-icon-zoom-out"></button>
-            <button daak-bind="cropButton" class="daak-icon-crop"></button>
-            <button daak-bind="rotate" class="daak-icon-rotate"></button>
-            <button daak-bind="send" class="daak-icon-send"></button>
-        </section>
-    </aside>
+<div  daak-type="zoom-tool">
+    <input type="text">
 </div>
-
-
 
 
 <script src="../../daak/frontend/js/daak.js"></script>
 <script src="../../daak/frontend/js/daak-crop.js"></script>
 <script src="../../daak/frontend/js/daak-photo-manager.js"></script>
+<script src="../../daak/frontend/js/zoom-tool.js"></script>
 <script>
     var pm = daak('PhotoManager', ["../../daak/frontend/images/cc_iStock-478639870_16x9.jpg"]);
-    var img = document.getElementById('image');//daak('#image');
+    document.body.appendChild(pm);
 
 //   var dd = daak.scanners()
 //   alert(dd)
