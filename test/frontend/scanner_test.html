@@ -13,6 +13,9 @@
     <!-- daak-photo-manager.css -->
     <link rel="stylesheet" href="../../daak/frontend/css/daak-photo-manager.css" media="screen"/>
 
+    <!-- daak-zoom-tool.css -->
+    <link rel="stylesheet" href="../../daak/frontend/css/zoom-tool.css" media="screen"/>
+
 </head>
 <style>
 
@@ -43,8 +46,10 @@
 <!--</div>-->
 <!--<input id='inpt' type="text" style="width: 1000px">-->
 
-<div  daak-type="zoom-tool">
-    <input type="text">
+<div class="daak-zoom-tool" daak-type="zoom-tool">
+    <section class="daak-zdegree">
+        <div daak-bind="knobe" class="daak-zknob"></div>
+    </section>
 </div>
 
 

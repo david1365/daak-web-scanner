@@ -259,6 +259,14 @@ var daak = (function ()
         }
     }
 
+    var bindToOwner = function (elem) {
+        var daakBind = elem.data('bind');
+
+        if ( daakBind ) {
+            elem.owner[daakBind] = elem;
+        }
+    }
+
     var placementDaak = function (elem) {
         var daakElem = findElem(elem.tagName);
 
@@ -266,14 +274,18 @@ var daak = (function ()
             daakElem = createDaakElem(daakElem, undefined, elem.attributes, elem.owner);
             elem.replace(daakElem);
 
-            for(var index in daakElem.prop) {
+            for(var index = 0; index < daakElem.prop.length; index++) {
                 var pName = daakElem.prop[index].name;
                 var pValue = daakElem.prop[index].value;
+
+                daakElem.setAttribute(pName, pValue);
 
                 if (daakElem[pName] != undefined){
                     daakElem[pName](pValue);
                 }
             }
+
+            bindToOwner(daakElem);
         }
     }
 
@@ -284,14 +296,10 @@ var daak = (function ()
         for(var i = 0; i < tags.length; i++) {
             var
                 tag = daak(tags[i]),
-                parentId = daak(tag.parentNode).data('id'),
-                daakBind = tag.data('bind');
-
-            if ( daakBind ) {
-                elem[daakBind] = tag;
-            }
+                parentId = daak(tag.parentNode).data('id');
 
             tag.owner = elem;
+            bindToOwner(tag);
 
             ids[parentId] = !ids[parentId] && ids[parentId] === undefined ? 0 : ids[parentId];
             ids[parentId]++;
@@ -500,6 +508,16 @@ var daak = (function ()
         replace: function (elem) {
             elem.owner = this.owner;
             this.parentNode.replaceChild(elem, this);
+        },
+
+        rotate: function (deg) {
+            var rotate = 'rotate('+deg+'deg)';
+            this.style.webkitTransform = rotate
+            this.style.mozTransform    = rotate;
+            this.style.msTransform     = rotate;
+            this.style.oTransform      = rotate;
+            this.style.transform       = rotate;
+
         }
     }
 

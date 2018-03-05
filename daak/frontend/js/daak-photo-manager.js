@@ -1,7 +1,7 @@
 ;(function( daak, window, document, undefined ) {
     daak.elems.PhotoManager = {
         render:
-            '<div class="daak-photo-manager no-select" daak-type="photo-manager">\n' +
+            '<div class="daak-photo-manager daak-no-select" daak-type="photo-manager">\n' +
             '    <aside daak-bind="content" class="daak-content">\n' +
             '        <canvas daak-bind="imageShow" class="daak-image-show"></canvas>\n' +
             '    </aside>\n' +
@@ -19,7 +19,7 @@
             '        </section>\n' +
 
             '       <section>' +
-            '         <zoomTool></zoomTool>' +
+            '         <zoomTool daak-bind="zoomTool"></zoomTool>' +
             '       </section>' +
             '    </aside>' +
             '</div>',

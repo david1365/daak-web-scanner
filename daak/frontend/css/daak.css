@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-.no-select {
+.daak-no-select {
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none;   /* Chrome/Safari/Opera */
     -khtml-user-select: none;    /* Konqueror */
