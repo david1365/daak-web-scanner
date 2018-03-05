@@ -153,28 +153,6 @@
                     return false;
                 }
 
-                var showSelection = function (crop) {
-                    var
-                        showImage = crop.parent().getElementsByTagName('canvas')[0],
-                        showImageCtx = showImage.getContext('2d'),
-                        rect = showImage.getBoundingClientRect(),
-
-                        selectionImage = crop.parent().getElementsByTagName('canvas')[1],
-                        selectionImageCtx = selectionImage.getContext('2d');
-
-                    var imgData = showImageCtx.getImageData(crop.left() - (rect.left - 10), crop.top() - (rect.top - 10), crop.width(), crop.height());
-
-                    // selectionImageCtx.clearRect(0, 0, selectionImage.width, selectionImage.height);
-
-                    selectionImage.width = crop.width();
-                    selectionImage.height = crop.height();
-
-                    selectionImageCtx.putImageData(imgData,0, 0);
-
-                    selectionImageCtx.restore();
-                    imgData = null;
-                }
-
                 this.parent().addEventListener('mousemove', function (e) {
                     e.stopPropagation();
                     var
@@ -183,6 +161,8 @@
 
                         crop = this.crop;
                     if ( crop ) {
+                        this.showSelection(crop);
+
                         var
                             screenOldY = crop.screenOldY,
                             screenOldX = crop.screenOldX,
@@ -195,7 +175,7 @@
                             crop.left(x - crop.diffX);
                             crop.top(y - crop.diffY);
 
-                            showSelection(crop);
+                            this.showSelection(crop);
 
                             return false;
                         }

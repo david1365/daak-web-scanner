@@ -18,9 +18,9 @@
             '            <button daak-bind="send" class="daak-icon-send"></button>\n' +
             '        </section>\n' +
 
-            '       <section>' +
-            '         <zoomTool daak-bind="zoomTool"></zoomTool>' +
-            '       </section>' +
+            // '       <section>' +
+            // '         <zoomTool daak-bind="zoomTool" max="360"></zoomTool>' +
+            // '       </section>' +
             '    </aside>' +
             '</div>',
 
@@ -32,6 +32,10 @@
 
             this.mouseDown = false;
             this.zoomNumber = 1.1;
+
+            this.toolbox.addEventListener('mousemove', function (e) {
+                e.stopPropagation();
+            })
 
             this.src = function (value) {
                 this._src = value;
@@ -56,6 +60,8 @@
 
                     context.drawImage(this, 0, 0);
                     context.drawImage(this, 0, 0, this.width, this.height);
+
+                    self.showSelection();
                 }
 
             };
@@ -87,7 +93,7 @@
 
                 var
                     degree = this.owner.degree,
-                    degree = degree == 360 ? 0 : degree + 1,
+                    degree = degree == 360 ? 90 : degree + 90,
                     imageShow = this.owner.imageShow;
 
                 this.owner.degree = degree;
@@ -96,14 +102,43 @@
                 imageShow.show();
             });
 
+            this.showSelection = function (crop) {
+                var
+                    showImage = this.getElementsByTagName('canvas')[0],
+                    showImageCtx = showImage.getContext('2d'),
+                    rect = showImage.getBoundingClientRect(),
+
+                    selectionImage = this.getElementsByTagName('canvas')[1],
+                    selectionImageCtx = selectionImage.getContext('2d');
+                    selectionImage.clearAll();
+
+                var
+                    left = crop ? crop.offsetLeft - (rect.left - 10) : 0,
+                    top = crop ? crop.offsetTop - (rect.top - 10) : 0,
+                    width = crop ? crop.offsetWidth : showImage.width,
+                    height = crop ? crop.offsetHeight : showImage.height,
+                    imgData = showImageCtx.getImageData(left, top, width, height);
+
+
+                selectionImage.width = crop ? crop.offsetWidth : showImage.width;
+                selectionImage.height = crop ? crop.offsetHeight : showImage.height;
+
+                selectionImageCtx.putImageData(imgData, 0, 0);
+
+                selectionImageCtx.restore();
+                imgData = null;
+
+            }
+
             this.addEventListener('mousedown', function (e) {
                 var
                     crop = this.crop;
-                rect = this.getBoundingClientRect(),
+                    rect = this.getBoundingClientRect(),
                     x = e.clientX,
                     y = e.clientY;
 
                 if (crop) {
+                    this.showSelection();
                     crop.remove();
                 }
 
@@ -312,7 +347,7 @@
                 // context.stroke();
             };
 
-            this.imageShow.clearAll = function () {
+            daak.fn.clearAll = function () {
                var context = this.getContext('2d');
 
                 context.setTransform(1, 0, 0, 1, 0, 0);
