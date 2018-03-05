@@ -402,6 +402,10 @@ var daak = (function ()
         },
 
         visible: function(value) {
+            if(value === undefined) {
+                return this.style.visibility === 'visible' ? true : false;
+            }
+
             var visibility = value === true ? 'visible' : 'hidden';
 
             this.style.visibility = visibility;
@@ -518,6 +522,14 @@ var daak = (function ()
             this.style.oTransform      = rotate;
             this.style.transform       = rotate;
 
+        },
+
+        clearAll: function () {
+            var context = this.getContext('2d');
+
+            context.setTransform(1, 0, 0, 1, 0, 0);
+            context.clearRect(0, 0, this.width, this.height);
+            context.restore();
         }
     }
 

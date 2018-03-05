@@ -161,7 +161,9 @@
 
                         crop = this.crop;
                     if ( crop ) {
-                        this.showSelection(crop);
+                        if (crop.visible()) {
+                            this.showSelection(crop);
+                        }
 
                         var
                             screenOldY = crop.screenOldY,

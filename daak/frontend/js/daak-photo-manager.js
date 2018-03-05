@@ -138,8 +138,8 @@
                     y = e.clientY;
 
                 if (crop) {
-                    this.showSelection();
                     crop.remove();
+                    this.showSelection();
                 }
 
                 crop = this.crop = daak('Crop', [this, x, y, 'ali']);
@@ -345,14 +345,6 @@
                 // context.beginPath();
                 // context.rect(0, 0, realWidth, realHeight);
                 // context.stroke();
-            };
-
-            daak.fn.clearAll = function () {
-               var context = this.getContext('2d');
-
-                context.setTransform(1, 0, 0, 1, 0, 0);
-                context.clearRect(0, 0, this.width, this.height);
-                context.restore();
             };
 
             this.imageShow.zoom = function (zoom, type) {
