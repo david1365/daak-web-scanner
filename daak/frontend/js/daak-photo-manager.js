@@ -22,7 +22,7 @@
             // '         <zoomTool daak-bind="zoomTool" max="360"></zoomTool>' +
             // '       </section>' +
                '      <section> ' +
-            '            <scanner daak-bind="scanner" ></scanner>' +
+            '            <scanner daak-bind="scanner" run="this.scan"></scanner>' +
                '      </section>' +
             '    </aside>' +
             '</div>',
@@ -35,6 +35,10 @@
 
             this.mouseDown = false;
             this.zoomNumber = 1.1;
+
+            this.scan = function (image) {
+                alert(image);
+            }
 
             this.toolbox.addEventListener('mousemove', function (e) {
                 e.stopPropagation();

@@ -237,6 +237,15 @@ var daak = (function ()
     }
     daak.cammelCase = cammelCase;
 
+    var realThis = function (daakElem, value) {
+        if (value.indexOf('this') == 0) {
+            value = value.replace('this', 'this.owner');
+            return value;
+        }
+
+        return value;
+    }
+
     var placementDaak = function (elem) {
         var daakElem = findElem(elem.tagName);
 
@@ -251,7 +260,7 @@ var daak = (function ()
                 daakElem.setAttribute(pName, attr != undefined ? pValue + ' ' + attr : pValue);
 
                 if (daakElem[pName] != undefined) {
-                    daakElem[pName](pValue);
+                    daakElem[pName](realThis(daakElem, pValue));
                 }
             }
 
@@ -462,24 +471,25 @@ var daak = (function ()
             }
         },
 
-        scan: function (id) {
-            var accept = {'INPUT' : 0, 'IMG': 1};
-            var tagName = this.tagName;
-
-            if (!(tagName in accept)){
-                throw new Error('daak -> Dont work for tag "' + tagName + '"!');
-            }
-
-            if(tagName === 'INPUT'){
-                var type = this.getAttribute('type');
-                if (type !== 'image'){
-                    throw new Error('daak -> Dont work for tag "' + tagName + '" with type "' + type + '"!');
-                }
-            }
-
-            var result = _scan(id);
-            this.src = 'data:image/png;base64,' + result._data;
-        },
+        //TODO: resolve this comment lines
+        // scan: function (id) {
+        //     var accept = {'INPUT' : 0, 'IMG': 1};
+        //     var tagName = this.tagName;
+        //
+        //     if (!(tagName in accept)){
+        //         throw new Error('daak -> Dont work for tag "' + tagName + '"!');
+        //     }
+        //
+        //     if(tagName === 'INPUT'){
+        //         var type = this.getAttribute('type');
+        //         if (type !== 'image'){
+        //             throw new Error('daak -> Dont work for tag "' + tagName + '" with type "' + type + '"!');
+        //         }
+        //     }
+        //
+        //     var result = _scan(id);
+        //     this.src = 'data:image/png;base64,' + result._data;
+        // },
 
         replace: function (elem) {
             elem.owner = this.owner;

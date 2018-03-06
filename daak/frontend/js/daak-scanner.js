@@ -6,7 +6,7 @@
                 '        </list>\n' +
                 '    </section>\n' +
                 '    <section>\n' +
-                '        <daakButton daak-bind="scan" class="daak-pbutton" text="scan"></daakButton>\n' +
+                '        <daakButton daak-bind="scanButton" class="daak-pbutton" text="scan"></daakButton>\n' +
                 '    </section>\n' +
                 '</div>',
 
@@ -70,13 +70,31 @@
                 // return image;
             }
 
-            var scanners = this.scanners();
+            this.run = function (func) {
+                if (func === undefined) {
+                    return this._run;
+                }
 
-            for(var i = 0; i < scanners.length; i++){
-                var scanner = scanners[i];
+                this._run = func;
+                this.scanButton.addEventListener('click', function () {
+                  var r = this.owner._run;
 
-                this.list.add(scanner.name, scanners.id);
+                  eval(r + '(433333)')
+                    // var scannerId = this.owner.list.selected();
+                    // if (scannerId != undefined){
+                    //    func(this.owner.scan());
+                    // }
+
+                })
             }
+
+            // var scanners = this.scanners();
+            //
+            // for(var i = 0; i < scanners.length; i++){
+            //     var scanner = scanners[i];
+            //
+            //     this.list.add(scanner.name, scanners.id);
+            // }
         }
     }
 }) (daak, window, document);
