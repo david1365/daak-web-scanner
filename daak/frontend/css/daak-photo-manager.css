@@ -32,6 +32,7 @@
     background-color: rgb(255,255,255);
     padding-left: 5px;
     cursor: default;
+    box-shadow: 0px -2px 2px rgb(119, 125, 126) inset;
 }
 
 .daak-toolbox > section {
@@ -51,26 +52,6 @@
     text-align: center;
 }
 
-.daak-tools button {
-    border-radius: 100%;
-    height: 35px;
-    width: 35px;
-    border: 0;
-    cursor: pointer;
-    box-shadow: 0px 3px 4px #888888;
-    background-color: white;
-}
-
-.daak-tools button:hover {
-    box-shadow: 0px 1px 4px #888888;
-}
-
-.daak-tools button:active {
-    box-shadow: 0px 1px 4px #888888 inset;
-}
-
-button:focus {outline:0;}
-
 .daak-image-show {
     /*border: 2px red solid;*/
 }
@@ -79,29 +60,4 @@ button:focus {outline:0;}
     border: 1px rgb(128, 120, 120) solid;
     max-height: 100%;
     max-width: 100%;
-}
-
-[class ^= 'daak-icon']{
-    border: 1px solid silver;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-.daak-icon-zoom-in {
-    background-image: url("../images/zoom-in.png");
-}
-
-.daak-icon-zoom-out {
-    background-image: url("../images/zoom-out.png");
-}
-
-.daak-icon-crop {
-    background-image: url("../images/crop.png");
-}
-
-.daak-icon-rotate {
-    background-image: url("../images/rotate.png");
-}
-
-.daak-icon-send {
-    background-image: url("../images/send.png");
 }

@@ -64,14 +64,6 @@ var daak = (function ()
     };
     // daak.oa = {};
 
-    const Status = {
-        OK: 0,
-        EROOR: 1
-    }
-
-    var prefixUrl = 'http://127.0.0.1:2020';
-    var scannerUrl = prefixUrl + '/scanner';
-
     var isFunction = function isFunction( obj ) {
         return typeof obj === "function" && typeof obj.nodeType !== "number";
     };
@@ -168,56 +160,6 @@ var daak = (function ()
         }
     }
 
-    var validUrl = function (url) {
-        return scannerUrl + '/' + url;
-    }
-
-    var runCommand = function (cmd) {
-        var result;
-
-        ajax({
-            url: validUrl(cmd),
-            dataType: 'json',
-            async: false,
-            success: function (data) {
-                result = data;
-            }
-        })
-
-        if (result._status === Status.EROOR) {
-            throw new Error(result._message);
-        }
-
-        return result;
-    }
-
-    var scanners = function () {
-        return runCommand('list');
-    }
-
-    var _scan = function (id) {
-        if (!id){
-            throw new Error('Please set scanner id!');
-        }
-
-        return runCommand(id);
-    }
-
-    var scan = function (id) {
-        var result = _scan(id);
-
-        var image = new Image();
-        image.src = 'data:image/png;base64,' + result._data;
-
-        return image;
-
-        //TODO: select one of them
-        // var image = new Image();
-        // image.src = validUrl(id) +'?daak=' + Math.random() * .23;
-        //
-        // return image;
-    }
-
     var initialDaak = function (elem) {
         counts++;
         var daakId = '.' + counts.toString();
@@ -272,6 +214,29 @@ var daak = (function ()
         }
     }
 
+    var cammelCase = function (str) {
+        if (str.indexOf('-') > 0) {
+            var aStr = str.split('-');
+            var newStr = aStr[0];
+
+            if (aStr[0] === 'daak'){
+                return str;
+            }
+
+            for (var i = 1; i < aStr.length; i++) {
+                var s = aStr[i];
+                s = s.charAt(0).toUpperCase() + s.slice(1);
+
+                newStr += s;
+            }
+
+            return newStr;
+        }
+
+        return str;
+    }
+    daak.cammelCase = cammelCase;
+
     var placementDaak = function (elem) {
         var daakElem = findElem(elem.tagName);
 
@@ -280,12 +245,12 @@ var daak = (function ()
             elem.replace(daakElem);
 
             for(var index = 0; index < daakElem.prop.length; index++) {
-                var pName = daakElem.prop[index].name;
+                var pName = cammelCase(daakElem.prop[index].name);
                 var pValue = daakElem.prop[index].value;
                 var attr =  daakElem.getAttribute(pName);
                 daakElem.setAttribute(pName, attr != undefined ? pValue + ' ' + attr : pValue);
 
-                if (daakElem[pName] != undefined){
+                if (daakElem[pName] != undefined) {
                     daakElem[pName](pValue);
                 }
             }
@@ -320,8 +285,6 @@ var daak = (function ()
         }
     }
 
-    daak.scanners = scanners;
-    daak.scan = scan;
     daak.ajax = ajax;
     daak.data2url = data2url;
     daak.functionName = functionName;
@@ -551,6 +514,11 @@ var daak = (function ()
 
         hasClass: function (value) {
             return this.classList.contains(value);
+        },
+
+        append: function (elem) {
+            elem.owner = this;
+            this.appendChild(elem);
         }
     }
 

@@ -115,3 +115,8 @@ QUnit.test( "isFloat test", function( assert ) {
     assert.ok( '12.5'.isFloat()  === true, "'12.5'.isFloat()...Passed!" );
 });
 
+QUnit.test( "cammelCase test", function( assert ) {
+    assert.ok( daak.cammelCase('a-b-c') === 'aBC', "'daak.cammelCase('a-b-c') === 'aBC'...Passed!" );
+    assert.ok( daak.cammelCase('aBc') === 'aBc', "'daak.cammelCase('aBc') === 'aBc'...Passed!" );
+});
+

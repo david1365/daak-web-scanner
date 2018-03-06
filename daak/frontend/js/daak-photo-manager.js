@@ -11,18 +11,18 @@
             '        </section>\n' +
             '\n' +
             '        <section daak-bind="tools" class="daak-tools">\n' +
-            '            <button daak-bind="zoomIn" class="daak-icon-zoom-in"></button>\n' +
-            '            <button daak-bind="zoomOut" class="daak-icon-zoom-out"></button>\n' +
-            '            <button daak-bind="cropButton" class="daak-icon-crop"></button>\n' +
-            '            <button daak-bind="rotate" class="daak-icon-rotate"></button>\n' +
-            '            <button daak-bind="send" class="daak-icon-send"></button>\n' +
+            '            <daakButton daak-bind="zoomIn" icon-type="zoom-in" btn-type="circle-button"></daakButton>' +
+            '            <daakButton daak-bind="zoomOut" icon-type="zoom-out" btn-type="circle-button"></daakButton>' +
+            '            <daakButton daak-bind="cropButton" icon-type="crop" btn-type="circle-button"></daakButton>' +
+            '            <daakButton daak-bind="rotate" icon-type="rotate" btn-type="circle-button"></daakButton>' +
+            '            <daakButton daak-bind="send"  icon-type="send" btn-type="circle-button"></daakButton>' +
             '        </section>' +
 
             // '       <section>' +
             // '         <zoomTool daak-bind="zoomTool" max="360"></zoomTool>' +
             // '       </section>' +
                '      <section> ' +
-               '         <list daak-bind="list" class="daak-option-list"></list>' +
+            '            <scanner daak-bind="scanner" ></scanner>' +
                '      </section>' +
             '    </aside>' +
             '</div>',
@@ -32,11 +32,6 @@
             //     VERTICAL: 'vertical',
             //     HORIZONTAL: 'horizontal'
             // };
-
-            this.addEventListener('click', function () {
-                this.list.add('dalimmand');
-                this.list.add('dddd233');
-            })
 
             this.mouseDown = false;
             this.zoomNumber = 1.1;

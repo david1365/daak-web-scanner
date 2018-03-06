@@ -1,5 +1,5 @@
 ;(function( daak, window, document, undefined ) {
-    daak.elems.listItem = {
+    daak.elems.ListItem = {
         render: '<div></div>',
         type: daak.type.CONTENT,
 
@@ -28,10 +28,8 @@
 
                 for(var i = 0; i < list.length; i++) {
                     var item = list[i];
-                    if (item.hasClass(active)) {
-                        item.removeClass(active);
-                        item.selected = false;
-                    }
+                    item.removeClass(active);
+                    item.selected = false;
                 }
 
                 this.selected = true;
@@ -47,17 +45,17 @@
         }
     }
 
-    daak.elems.list = {
+    daak.elems.List = {
         render: '<div class="daak-list" daak-type="list">\n' +
                     '<div daak-bind="container" class="daak-list-container"></div>' +
                 '</div>',
 
         body: function () {
-            this.list = this.children;
+            this.container.list = this.container.children;
 
             this.add = function (value, index) {
-                var item  = daak('listItem', [value, index]);
-                this.container.appendChild(item)
+                var item  = daak('ListItem', [value, index]);
+                this.container.append(item);
             }
 
             this.remove = function (item) {

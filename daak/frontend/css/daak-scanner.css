@@ -1,29 +1,11 @@
-.daak-zoom-tool {
-    padding: 5px 0;
-}
-
-.daak-zdegree {
-    border-radius: 10px;
-    /*width: 180px;*/
-    height: 20px;
+.daak-pbutton {
+    padding: 4px 56px !important;
     margin: auto;
-    box-shadow: 0px 0px 6px 3px rgba(183, 179, 176, 0.4);
-    position: relative;
-    cursor: default;
-    /*background-image: url("../images/Degree-Radian.png");*/
-    /*background-position: center;*/
-    /*background-repeat: no-repeat;*/
-    /*background-size: contain;*/
-    cursor: all-scroll;
+    width: 100%;
 }
 
-.daak-zknob {
-    border-radius: 100%;
-    width: 20px;
-    height: 20px;
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8) inset;
-    position: absolute;
-    /*! left: 142px; */
-    /*! top: 67px; */
-    cursor: pointer;
+.daak-scanner {
+    margin-top: 25px;
+    text-align: center;
+    padding: 0 10px;
 }
