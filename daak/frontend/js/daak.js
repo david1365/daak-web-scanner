@@ -59,6 +59,9 @@ var daak = (function ()
     daak.NUMBER_REGEX = /^[0-9]+$/;
     daak.FLAOT_REGEX = /^[+-]?\d+(\.\d+)?$/;
     daak.elems = {};
+    daak.type = {
+        CONTENT : 'content'
+    };
     // daak.oa = {};
 
     const Status = {
@@ -245,6 +248,8 @@ var daak = (function ()
            elem.body = daakElem.body;
            elem.prop = prop;
            elem.owner = owner;
+           elem.type = daakElem.type;
+
            eval('elem.body(' + sa + ')');
 
            return elem;
@@ -277,12 +282,16 @@ var daak = (function ()
             for(var index = 0; index < daakElem.prop.length; index++) {
                 var pName = daakElem.prop[index].name;
                 var pValue = daakElem.prop[index].value;
-
-                daakElem.setAttribute(pName, pValue);
+                var attr =  daakElem.getAttribute(pName);
+                daakElem.setAttribute(pName, attr != undefined ? pValue + ' ' + attr : pValue);
 
                 if (daakElem[pName] != undefined){
                     daakElem[pName](pValue);
                 }
+            }
+
+            if (daakElem.type === daak.type.CONTENT) {
+                daakElem.innerHTML = elem.innerHTML;
             }
 
             bindToOwner(daakElem);
@@ -530,6 +539,18 @@ var daak = (function ()
             context.setTransform(1, 0, 0, 1, 0, 0);
             context.clearRect(0, 0, this.width, this.height);
             context.restore();
+        },
+
+        addClass: function (value) {
+            this.classList.add(value);
+        },
+
+        removeClass: function (value) {
+            this.classList.remove(value);
+        },
+
+        hasClass: function (value) {
+            return this.classList.contains(value);
         }
     }
 

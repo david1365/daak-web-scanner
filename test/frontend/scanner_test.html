@@ -14,7 +14,10 @@
     <link rel="stylesheet" href="../../daak/frontend/css/daak-photo-manager.css" media="screen"/>
 
     <!-- daak-zoom-tool.css -->
-    <link rel="stylesheet" href="../../daak/frontend/css/zoom-tool.css" media="screen"/>
+    <!--<link rel="stylesheet" href="../../daak/frontend/css/zoom-tool.css" media="screen"/>-->
+
+    <!-- daak-daak-scanner.css -->
+    <link rel="stylesheet" href="../../daak/frontend/css/daak-list.css" media="screen"/>
 
 </head>
 <style>
@@ -53,12 +56,21 @@
 <!--</div>-->
 
 
+<!--<div class="daak-list" daak-type="list">-->
+    <!--<listItem index="1">ali</listItem>-->
+    <!--<listItem index="2">mamad</listItem>-->
+<!--</div>-->
+
+
+
 <script src="../../daak/frontend/js/daak.js"></script>
 <script src="../../daak/frontend/js/daak-crop.js"></script>
 <script src="../../daak/frontend/js/daak-photo-manager.js"></script>
-<script src="../../daak/frontend/js/zoom-tool.js"></script>
+<script src="../../daak/frontend/js/daak-list.js"></script>
+<!--<script src="../../daak/frontend/js/zoom-tool.js"></script>-->
+
 <script>
-    var pm = daak('PhotoManager', ["../../daak/frontend/images/cc_iStock-478639870_16x9.jpg"]);
+    var pm = daak('PhotoManager', ["../../daak/frontend/images/width.png"]);
     document.body.appendChild(pm);
 
 //   var dd = daak.scanners()

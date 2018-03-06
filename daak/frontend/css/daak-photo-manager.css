@@ -1,3 +1,7 @@
+.daak-option-list {
+    margin: 10px !important;
+}
+
 .daak-photo-manager {
     position: relative;
     cursor:crosshair;

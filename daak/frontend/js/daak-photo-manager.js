@@ -16,11 +16,14 @@
             '            <button daak-bind="cropButton" class="daak-icon-crop"></button>\n' +
             '            <button daak-bind="rotate" class="daak-icon-rotate"></button>\n' +
             '            <button daak-bind="send" class="daak-icon-send"></button>\n' +
-            '        </section>\n' +
+            '        </section>' +
 
             // '       <section>' +
             // '         <zoomTool daak-bind="zoomTool" max="360"></zoomTool>' +
             // '       </section>' +
+               '      <section> ' +
+               '         <list daak-bind="list" class="daak-option-list"></list>' +
+               '      </section>' +
             '    </aside>' +
             '</div>',
 
@@ -29,6 +32,11 @@
             //     VERTICAL: 'vertical',
             //     HORIZONTAL: 'horizontal'
             // };
+
+            this.addEventListener('click', function () {
+                this.list.add('dalimmand');
+                this.list.add('dddd233');
+            })
 
             this.mouseDown = false;
             this.zoomNumber = 1.1;
@@ -103,30 +111,35 @@
             });
 
             this.showSelection = function (crop) {
-                var
-                    showImage = this.getElementsByTagName('canvas')[0],
-                    showImageCtx = showImage.getContext('2d'),
-                    rect = showImage.getBoundingClientRect(),
+                try {
+                    var
+                        showImage = this.getElementsByTagName('canvas')[0],
+                        showImageCtx = showImage.getContext('2d'),
+                        rect = showImage.getBoundingClientRect(),
 
-                    selectionImage = this.getElementsByTagName('canvas')[1],
-                    selectionImageCtx = selectionImage.getContext('2d');
-                    selectionImage.clearAll();
+                        selectionImage = this.getElementsByTagName('canvas')[1],
+                        selectionImageCtx = selectionImage.getContext('2d');
+                        selectionImage.clearAll();
 
-                var
-                    left = crop ? crop.offsetLeft - (rect.left - 10) : 0,
-                    top = crop ? crop.offsetTop - (rect.top - 10) : 0,
-                    width = crop ? crop.offsetWidth : showImage.width,
-                    height = crop ? crop.offsetHeight : showImage.height,
-                    imgData = showImageCtx.getImageData(left, top, width, height);
+                    var
+                        left = crop ? crop.offsetLeft - (rect.left - 10) : 0,
+                        top = crop ? crop.offsetTop - (rect.top - 10) : 0,
+                        width = crop ? crop.offsetWidth : showImage.width,
+                        height = crop ? crop.offsetHeight : showImage.height,
+                        imgData = showImageCtx.getImageData(left, top, width, height);
 
 
-                selectionImage.width = crop ? crop.offsetWidth : showImage.width;
-                selectionImage.height = crop ? crop.offsetHeight : showImage.height;
+                    selectionImage.width = crop ? crop.offsetWidth : showImage.width;
+                    selectionImage.height = crop ? crop.offsetHeight : showImage.height;
 
-                selectionImageCtx.putImageData(imgData, 0, 0);
+                    selectionImageCtx.putImageData(imgData, 0, 0);
 
-                selectionImageCtx.restore();
-                imgData = null;
+                    selectionImageCtx.restore();
+                    imgData = null;
+                }
+                finally {
+
+                }
 
             }
 
