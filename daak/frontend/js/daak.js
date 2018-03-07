@@ -329,9 +329,14 @@ var daak = (function ()
 
             placementDaak(tag);
         }
+    },
+
+    clone = function (object) {
+        return JSON.parse(JSON.stringify(object));
     }
 
     daak.ajax = ajax;
+    daak.clone = clone;
     daak.data2url = data2url;
     daak.functionName = functionName;
     var isArray = daak.isArray = Array.isArray;
@@ -383,6 +388,27 @@ var daak = (function ()
             }
 
             return elem;
+        },
+
+        load: function (params) {
+            var
+                success = function (responseText, status, readyState) {
+                    if (params.success) {
+                        params.success(responseText, status, readyState);
+                    }
+                },
+
+                error = function (xhr, status, readyState) {
+                    if (params.error) {
+                        params.error(xhr, status, readyState);
+                    }
+                }
+
+
+
+            params.success()
+
+            ajax(params);
         },
 
         find: function (selector) {

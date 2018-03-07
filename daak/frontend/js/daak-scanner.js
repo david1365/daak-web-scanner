@@ -83,13 +83,13 @@
                 owner.setSrc('data:image/png;base64,' + src);
             })
 
-            var scanners = this.scanners();
-
-            for(var i = 0; i < scanners.length; i++){
-                var scanner = scanners[i];
-
-                this.scannerList.add(scanner.name, scanner.id);
-            }
+            // var scanners = this.scanners();
+            //
+            // for(var i = 0; i < scanners.length; i++){
+            //     var scanner = scanners[i];
+            //
+            //     this.scannerList.add(scanner.name, scanner.id);
+            // }
         }
     }
 }) (daak, window, document);

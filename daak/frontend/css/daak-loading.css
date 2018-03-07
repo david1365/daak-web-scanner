@@ -1,0 +1,4 @@
+.daak-loading {
+    position: absolute;
+    background-image: url("../images/ajax-loading.png");
+}
