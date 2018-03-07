@@ -219,7 +219,7 @@ var daak = (function ()
             var aStr = str.split('-');
             var newStr = aStr[0];
 
-            if (aStr[0] === 'daak'){
+            if (aStr[0] === 'daak') {
                 return str;
             }
 
@@ -237,13 +237,48 @@ var daak = (function ()
     }
     daak.cammelCase = cammelCase;
 
-    var realThis = function (daakElem, value) {
-        if (value.indexOf('this') == 0) {
-            value = value.replace('this', 'this.owner');
-            return value;
-        }
+    var addAttribute = function (daakElem, attrName, attrValue) {
+        var oldAttrValue =  daakElem.getAttribute(attrName);
+        daakElem.setAttribute(attrName, oldAttrValue != undefined ? attrValue + ' ' + oldAttrValue : attrValue);
 
-        return value;
+        var attrName = cammelCase(attrName);
+        if (daakElem[attrName] != undefined) {
+            daakElem[attrName](attrValue);
+        }
+    }
+
+    var stringParams = function (value) {
+        var
+            firstParentes = value.indexOf('('),
+            lastParentes = value.indexOf(')');
+
+        return value.substr(firstParentes, lastParentes);
+    }
+
+    var addFunctionAttribute = function (daakElem, attrName, attrValue) {
+        attrName = cammelCase(attrName);
+        attrValue = attrValue.replace('this', 'this.owner');
+
+        var
+            params = stringParams(attrValue);
+
+        daakElem[attrName] = eval(
+            'a  = function ' + params + '{' +
+                attrValue +
+            ';}');
+    }
+
+    var handleAttribute = function (daakElem, attr) {
+        var pName = attr.name;
+        var pValue = attr.value;
+
+        var apName = pName.split('-');
+        if (apName[0] != 'df') {
+            addAttribute(daakElem, pName, pValue);
+        }
+        else {
+            addFunctionAttribute(daakElem, pName.replace('df-', '') , pValue);
+        }
     }
 
     var placementDaak = function (elem) {
@@ -254,14 +289,16 @@ var daak = (function ()
             elem.replace(daakElem);
 
             for(var index = 0; index < daakElem.prop.length; index++) {
-                var pName = cammelCase(daakElem.prop[index].name);
-                var pValue = daakElem.prop[index].value;
-                var attr =  daakElem.getAttribute(pName);
-                daakElem.setAttribute(pName, attr != undefined ? pValue + ' ' + attr : pValue);
+                // var pName = cammelCase(daakElem.prop[index].name);
+                // var pValue = daakElem.prop[index].value;
+                // var attr =  daakElem.getAttribute(pName);
+                // daakElem.setAttribute(pName, attr != undefined ? pValue + ' ' + attr : pValue);
+                //
+                // if (daakElem[pName] != undefined) {
+                //     daakElem[pName](pValue);
+                // }
 
-                if (daakElem[pName] != undefined) {
-                    daakElem[pName](realThis(daakElem, pValue));
-                }
+                handleAttribute(daakElem, daakElem.prop[index]);
             }
 
             if (daakElem.type === daak.type.CONTENT) {

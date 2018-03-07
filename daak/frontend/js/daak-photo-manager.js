@@ -22,7 +22,7 @@
             // '         <zoomTool daak-bind="zoomTool" max="360"></zoomTool>' +
             // '       </section>' +
                '      <section> ' +
-            '            <scanner daak-bind="scanner" run="this.scan"></scanner>' +
+            '            <scanner daak-bind="scanner" df-set-src="this.src(src)"></scanner>' +
                '      </section>' +
             '    </aside>' +
             '</div>',
@@ -35,10 +35,6 @@
 
             this.mouseDown = false;
             this.zoomNumber = 1.1;
-
-            this.scan = function (image) {
-                alert(image);
-            }
 
             this.toolbox.addEventListener('mousemove', function (e) {
                 e.stopPropagation();
@@ -125,16 +121,20 @@
                         top = crop ? crop.offsetTop - (rect.top - 10) : 0,
                         width = crop ? crop.offsetWidth : showImage.width,
                         height = crop ? crop.offsetHeight : showImage.height,
+                        imgData;
+
+                    if (width || height > 0) {
                         imgData = showImageCtx.getImageData(left, top, width, height);
 
 
-                    selectionImage.width = crop ? crop.offsetWidth : showImage.width;
-                    selectionImage.height = crop ? crop.offsetHeight : showImage.height;
+                        selectionImage.width = crop ? crop.offsetWidth : showImage.width;
+                        selectionImage.height = crop ? crop.offsetHeight : showImage.height;
 
-                    selectionImageCtx.putImageData(imgData, 0, 0);
+                        selectionImageCtx.putImageData(imgData, 0, 0);
 
-                    selectionImageCtx.restore();
-                    imgData = null;
+                        selectionImageCtx.restore();
+                        imgData = null;
+                    }
                 }
                 finally {
 

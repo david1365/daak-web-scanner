@@ -63,7 +63,7 @@
             }
 
             this.selected = function () {
-                var list = this.list;
+                var list = this.container.list;
                 for(var i = 0; i < list.length; i++) {
                     if (list[i].selected === true){
                         return list[i];

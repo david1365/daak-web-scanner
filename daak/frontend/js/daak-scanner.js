@@ -2,8 +2,7 @@
     daak.elems.scanner = {
         render: '<div daak-type="scanner" class="daak-scanner">\n' +
                 '    <section>\n' +
-                '        <list daak-bind="list">\n' +
-                '        </list>\n' +
+                '        <list daak-bind="scannerList"></list>\n' +
                 '    </section>\n' +
                 '    <section>\n' +
                 '        <daakButton daak-bind="scanButton" class="daak-pbutton" text="scan"></daakButton>\n' +
@@ -58,11 +57,7 @@
             this.scan = function (id) {
                 var result = this._scan(id);
 
-                var image = new Image();
-                image.src = 'data:image/png;base64,' + result._data;
-
-                return image;
-
+                return result._data;
                 //TODO: select one of them
                 // var image = new Image();
                 // image.src = validUrl(id) +'?daak=' + Math.random() * .23;
@@ -70,31 +65,31 @@
                 // return image;
             }
 
-            this.run = function (func) {
-                if (func === undefined) {
-                    return this._run;
-                }
+            this.base642Image = function (data) {
+                var image = new Image();
+                image.src = 'data:image/png;base64,' + data;
 
-                this._run = func;
-                this.scanButton.addEventListener('click', function () {
-                  var r = this.owner._run;
-
-                  eval(r + '(433333)')
-                    // var scannerId = this.owner.list.selected();
-                    // if (scannerId != undefined){
-                    //    func(this.owner.scan());
-                    // }
-
-                })
+                return image;
             }
 
-            // var scanners = this.scanners();
-            //
-            // for(var i = 0; i < scanners.length; i++){
-            //     var scanner = scanners[i];
-            //
-            //     this.list.add(scanner.name, scanners.id);
-            // }
+            this.scanButton.addEventListener('click', function (e) {
+                e.stopPropagation();
+
+                var
+                    owner = this.owner,
+                    id = owner.scannerList.selected().index(),
+                    src  = owner.scan(id);
+
+                owner.setSrc('data:image/png;base64,' + src);
+            })
+
+            var scanners = this.scanners();
+
+            for(var i = 0; i < scanners.length; i++){
+                var scanner = scanners[i];
+
+                this.scannerList.add(scanner.name, scanner.id);
+            }
         }
     }
 }) (daak, window, document);
