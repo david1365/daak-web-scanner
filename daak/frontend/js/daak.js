@@ -390,25 +390,54 @@ var daak = (function ()
             return elem;
         },
 
-        load: function (params) {
-            var
-                success = function (responseText, status, readyState) {
-                    if (params.success) {
-                        params.success(responseText, status, readyState);
-                    }
-                },
+        load: function (params, loadingPlace) {
+            if (params === undefined) {
+                params = {}
+            }
 
-                error = function (xhr, status, readyState) {
-                    if (params.error) {
-                        params.error(xhr, status, readyState);
-                    }
+            var
+                self = loadingPlace != undefined ? loadingPlace : this,
+                loadElem = daak('<div class="daak-loading"></div>'),
+                tmpPosition = this.style.position,
+                startLoading = function () {
+                    self.style.position = 'relative';
+                    self.disabled = true;
+                    self.append(loadElem);
+                },
+                stopLoading = function () {
+                    self.style.position = tmpPosition;
+                    self.disabled = false;
+                    loadElem.remove();
+                },
+                errorLoading = function () {
+                    loadElem.removeClass('daak-loading');
+                    loadElem.addClass('daak-loading-error');
+
+                    self.addEventListener('mouseleave', function () {
+                        loadElem.remove();
+                    })
                 }
 
+                newParams = clone(params);
 
 
-            params.success()
+            startLoading();
+            newParams.success = function (responseText, status, readyState) {
+                if (params.success) {
+                    stopLoading();
+                    params.success(responseText, status, readyState);
+                }
+            },
 
-            ajax(params);
+            newParams.error = function (xhr, status, readyState) {
+                if (params.error) {
+                    params.error(xhr, status, readyState);
+                    errorLoading();
+                }
+            }
+
+
+            ajax(newParams);
         },
 
         find: function (selector) {

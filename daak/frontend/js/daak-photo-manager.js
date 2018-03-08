@@ -66,7 +66,6 @@
 
                     self.showSelection();
                 }
-
             };
 
             this.tools.addEventListener('mousedown', function (e) {

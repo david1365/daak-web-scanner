@@ -1,4 +1,27 @@
 ;(function( daak, window, document, undefined ) {
+    const Status = {
+        OK: 0,
+        EROOR: 1
+    }
+
+    daak.fn.scanLoad = function (params) {
+        this.load({
+            url: params.cmd,
+            dataType: 'json',
+            // async: false,
+            success: function (result) {
+                if (params.success) {
+                    if (result._status === Status.EROOR) {
+                        console.log(Error(result._message));
+                    }
+
+                    params.success(result);
+                }
+            },
+            error: params.error,
+        }, params.loadingPlace)
+    }
+
     daak.elems.scanner = {
         render: '<div daak-type="scanner" class="daak-scanner">\n' +
                 '    <section>\n' +
@@ -10,11 +33,6 @@
                 '</div>',
 
         body: function () {
-            const Status = {
-                OK: 0,
-                EROOR: 1
-            }
-
             var prefixUrl = 'http://127.0.0.1:2020';
             var scannerUrl = prefixUrl + '/scanner';
 
@@ -23,41 +41,30 @@
             }
 
 
-            this._runCommand = function (cmd) {
-                var result;
-
-                daak.ajax({
-                    url: this._validUrl(cmd),
-                    dataType: 'json',
-                    async: false,
-                    success: function (data) {
-                        result = data;
+            this.scanners = function (func) {
+                this.scanLoad({
+                    cmd: this._validUrl('list'),
+                    success: function (result) {
+                    if (func){
+                        func(result._data);
                     }
-                })
-
-                if (result._status === Status.EROOR) {
-                    throw new Error(result._message);
-                }
-
-                return result;
+                }});
             }
 
-            this.scanners = function () {
-                return this._runCommand('list')._data;
-            }
-
-            this._scan = function (id) {
+            this._scan = function (id, func) {
                 if (!id){
                     throw new Error('Please set scanner id!');
                 }
 
-                return this._runCommand(id);
+                this.scanLoad(this._validUrl(id), function (result) {
+                    if (func) {
+                        func(result._data);
+                    }
+                });
             }
 
-            this.scan = function (id) {
-                var result = this._scan(id);
-
-                return result._data;
+            this.scan = function (id, callBack) {
+                 this._scan(id, callBack);
                 //TODO: select one of them
                 // var image = new Image();
                 // image.src = validUrl(id) +'?daak=' + Math.random() * .23;
@@ -77,19 +84,22 @@
 
                 var
                     owner = this.owner,
-                    id = owner.scannerList.selected().index(),
-                    src  = owner.scan(id);
-
-                owner.setSrc('data:image/png;base64,' + src);
+                    id = owner.scannerList.selected().index();
+                    owner.scan(id, function (src) {
+                        owner.setSrc('data:image/png;base64,' + src);
+                    });
             })
 
-            // var scanners = this.scanners();
-            //
-            // for(var i = 0; i < scanners.length; i++){
-            //     var scanner = scanners[i];
-            //
-            //     this.scannerList.add(scanner.name, scanner.id);
-            // }
+
+
+             var scannerList = this.scannerList;
+             this.scanners(function (scanners) {
+                for(var i = 0; i < scanners.length; i++){
+                    var scanner = scanners[i];
+
+                    scannerList.add(scanner.name, scanner.id);
+                }
+            });
         }
     }
 }) (daak, window, document);

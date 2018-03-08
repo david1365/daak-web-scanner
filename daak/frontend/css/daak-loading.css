@@ -1,4 +1,19 @@
-.daak-loading {
+.daak-loading, .daak-loading-error {
     position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(1, 1, 1, .15);
+    background-repeat: no-repeat;
+    top: 0;
+    left: 0;
+    background-position: center;
+    background-size: cover;
+}
+
+.daak-loading {
     background-image: url("../images/ajax-loading.png");
+}
+
+.daak-loading-error {
+    background-image: url("../images/errorstop.png");
 }
