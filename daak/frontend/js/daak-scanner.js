@@ -56,11 +56,14 @@
                     throw new Error('Please set scanner id!');
                 }
 
-                this.scanLoad(this._validUrl(id), function (result) {
-                    if (func) {
-                        func(result._data);
+                this.scanLoad({
+                    cmd: this._validUrl(id),
+                    success: function (result) {
+                        if (func) {
+                            func(result._data);
+                        }
                     }
-                });
+                })
             }
 
             this.scan = function (id, callBack) {
