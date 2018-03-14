@@ -12,6 +12,8 @@ scanners = myScan.getScanners()
 myScan.setScanner(scanners[1])
 imgs = myScan.multiScan()
 
+imgs[0].save("E:\d.jpg", "JPEG")
 
-time.sleep(10)
-print "ok"
+print len(imgs)
+
+time.sleep(20)
