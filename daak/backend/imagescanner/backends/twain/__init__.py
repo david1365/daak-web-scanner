@@ -71,7 +71,7 @@ class Scanner(base.Scanner):
 
         # self.callback = callback
 
-        time.sleep(10)
+        # time.sleep(10)
 
         info = self._scanner.GetImageInfo()
         if info:
